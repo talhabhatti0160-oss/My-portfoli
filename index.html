@@ -1,11 +1,16 @@
+<?php
+// index.php (single file)
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Talha | IT & Network Engineer</title>
+  <title>M. Talha Hussain | IT & Network Engineer</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <script>
     tailwind.config = {
       theme: {
@@ -13,14 +18,18 @@
           animation: {
             'pulse-slow': 'pulse 3s ease-in-out infinite',
             'float': 'float 6s ease-in-out infinite',
-            'gradient': 'gradient 8s ease infinite',
+            'gradient': 'gradient 10s ease infinite',
             'typing': 'typing 3.5s steps(40, end)',
             'blink': 'blink 1s step-end infinite',
+            'blob': 'blob 18s ease-in-out infinite',
+            'blob2': 'blob2 22s ease-in-out infinite',
+            'blob3': 'blob3 26s ease-in-out infinite',
+            'shine': 'shine 3.5s ease-in-out infinite',
           },
           keyframes: {
             float: {
               '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-20px)' },
+              '50%': { transform: 'translateY(-18px)' },
             },
             gradient: {
               '0%, 100%': { 'background-position': '0% 50%' },
@@ -34,373 +43,358 @@
               'from, to': { 'border-color': 'transparent' },
               '50%': { 'border-color': 'white' },
             },
+            blob: {
+              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
+              '30%': { transform: 'translate3d(60px,-40px,0) scale(1.08)' },
+              '60%': { transform: 'translate3d(-40px,50px,0) scale(0.98)' },
+            },
+            blob2: {
+              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
+              '30%': { transform: 'translate3d(-70px,30px,0) scale(1.06)' },
+              '60%': { transform: 'translate3d(45px,-55px,0) scale(0.96)' },
+            },
+            blob3: {
+              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
+              '30%': { transform: 'translate3d(40px,60px,0) scale(1.05)' },
+              '60%': { transform: 'translate3d(-60px,-35px,0) scale(0.97)' },
+            },
+            shine: {
+              '0%, 100%': { opacity: .25 },
+              '50%': { opacity: .55 },
+            }
           }
         }
       }
     }
   </script>
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       scroll-behavior: smooth;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       overflow-x: hidden;
-      background: #000000;
-      color: #ffffff;
+      background: #000;
+      color: #fff;
     }
-    
+
     /* Modern scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: #111111;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: #333333;
-      border-radius: 5px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: #444444;
-    }
-    
-    /* Name in top left - redesigned */
-    #fixed-name {
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+    /* Fixed name */
+    #fixed-name{
       position: fixed;
-      top: 25px;
-      left: 25px;
-      font-size: 1.5rem;
-      font-weight: 700;
+      top: 22px; left: 22px;
+      font-size: 1.4rem;
+      font-weight: 800;
       color: white;
       z-index: 1000;
       opacity: 0;
       transform: translateY(-30px);
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: 0.5px;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all .6s cubic-bezier(.4,0,.2,1);
+      letter-spacing: .6px;
+      background: rgba(0,0,0,.85);
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 38px rgba(0,0,0,.35);
     }
-    
-    #fixed-name.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
+    #fixed-name.visible{ opacity:1; transform: translateY(0); }
+
     /* Animated underline */
-    .animated-underline {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .animated-underline::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
+    .animated-underline{ position: relative; display:inline-block; }
+    .animated-underline::after{
+      content:'';
+      position:absolute;
+      width:0;
+      height:2px;
+      bottom:-3px; left:0;
       background: linear-gradient(90deg, transparent, white, transparent);
-      transition: width 0.5s ease;
+      transition: width .5s ease;
     }
-    
-    .animated-underline:hover::after {
-      width: 100%;
+    .animated-underline:hover::after{ width: 100%; }
+
+    /* Section title */
+    .section-title{ position:relative; padding-bottom: 15px; margin-bottom: 45px; }
+    .section-title::after{
+      content:'';
+      position:absolute;
+      bottom:0; left:0;
+      width: 86px; height: 3px;
+      background: linear-gradient(90deg, #fff, #777);
     }
-    
-    /* Section styling */
-    .section-title {
+
+    /* Card */
+    .card{
+      background: rgba(18,18,18,.65);
+      border: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(14px);
+      transition: all .45s cubic-bezier(.4,0,.2,1);
       position: relative;
-      padding-bottom: 15px;
-      margin-bottom: 50px;
+      overflow:hidden;
     }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, #ffffff, #888888);
-    }
-    
-    /* Card styling */
-    .card {
-      background: rgba(20, 20, 20, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .card:hover {
+    .card:hover{
       transform: translateY(-10px);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 22px 55px rgba(0,0,0,.55);
     }
-    
-    /* Skill bar animation */
-    .skill-bar {
+    .card::before{
+      content:'';
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.14), transparent 40%);
+      opacity:0;
+      transition: opacity .35s ease;
+      pointer-events:none;
+    }
+    .card:hover::before{ opacity:1; }
+
+    /* Skill bars */
+    .skill-bar{
       height: 6px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.10);
       border-radius: 3px;
       overflow: hidden;
       position: relative;
     }
-    
-    .skill-level {
-      height: 100%;
-      background: linear-gradient(90deg, #ffffff, #aaaaaa);
+    .skill-level{
+      height:100%;
+      background: linear-gradient(90deg, #fff, #aaa);
       border-radius: 3px;
-      position: relative;
       transform: translateX(-100%);
       transition: transform 1.5s ease-out;
     }
-    
-    .skill-level.animated {
-      transform: translateX(0);
-    }
-    
-    /* Binary code background animation */
-    .binary-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      opacity: 0.03;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    
-    .binary-digit {
-      position: absolute;
-      color: #ffffff;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      opacity: 0;
-      animation: binaryFall linear infinite;
-    }
-    
-    @keyframes binaryFall {
-      0% {
-        transform: translateY(-100px);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.8;
-      }
-      90% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-    
-    /* Network lines animation */
-    .network-line {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
-    
-    .line {
-      position: absolute;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-      height: 1px;
-      animation: lineMove linear infinite;
-    }
-    
-    @keyframes lineMove {
-      0% {
-        transform: translateX(-100%);
-      }
-      100% {
-        transform: translateX(100vw);
-      }
-    }
-    
-    /* Glitch effect for tech feel */
-    .glitch-text {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .glitch-text::before,
-    .glitch-text::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .glitch-text::before {
-      left: 2px;
-      text-shadow: -1px 0 rgba(255, 0, 0, 0.7);
-      animation: glitch-1 2s infinite linear alternate-reverse;
-    }
-    
-    .glitch-text::after {
-      left: -2px;
-      text-shadow: 1px 0 rgba(0, 255, 255, 0.7);
-      animation: glitch-2 3s infinite linear alternate-reverse;
-    }
-    
-    @keyframes glitch-1 {
-      0% { clip-path: inset(40% 0 61% 0); }
-      5% { clip-path: inset(92% 0 1% 0); }
-      10% { clip-path: inset(43% 0 1% 0); }
-      15% { clip-path: inset(25% 0 58% 0); }
-      20% { clip-path: inset(54% 0 7% 0); }
-      45% { clip-path: inset(58% 0 43% 0); }
-      50% { clip-path: inset(98% 0 1% 0); }
-      55% { clip-path: inset(48% 0 13% 0); }
-      60% { clip-path: inset(45% 0 34% 0); }
-      65% { clip-path: inset(57% 0 12% 0); }
-      70% { clip-path: inset(88% 0 6% 0); }
-      75% { clip-path: inset(84% 0 9% 0); }
-      80% { clip-path: inset(92% 0 3% 0); }
-      85% { clip-path: inset(20% 0 60% 0); }
-      90% { clip-path: inset(60% 0 8% 0); }
-      95% { clip-path: inset(86% 0 2% 0); }
-      100% { clip-path: inset(60% 0 40% 0); }
-    }
-    
-    @keyframes glitch-2 {
-      0% { clip-path: inset(25% 0 58% 0); }
-      5% { clip-path: inset(54% 0 7% 0); }
-      10% { clip-path: inset(58% 0 43% 0); }
-      15% { clip-path: inset(98% 0 1% 0); }
-      20% { clip-path: inset(48% 0 13% 0); }
-      25% { clip-path: inset(45% 0 34% 0); }
-      30% { clip-path: inset(57% 0 12% 0); }
-      35% { clip-path: inset(88% 0 6% 0); }
-      40% { clip-path: inset(84% 0 9% 0); }
-      45% { clip-path: inset(92% 0 3% 0); }
-      50% { clip-path: inset(20% 0 60% 0); }
-      55% { clip-path: inset(60% 0 8% 0); }
-      60% { clip-path: inset(86% 0 2% 0); }
-      65% { clip-path: inset(60% 0 40% 0); }
-      70% { clip-path: inset(40% 0 61% 0); }
-      75% { clip-path: inset(92% 0 1% 0); }
-      80% { clip-path: inset(43% 0 1% 0); }
-      85% { clip-path: inset(25% 0 58% 0); }
-      90% { clip-path: inset(54% 0 7% 0); }
-      95% { clip-path: inset(58% 0 43% 0); }
-      100% { clip-path: inset(98% 0 1% 0); }
-    }
-    
-    /* Terminal-style typing effect */
-    .terminal-text {
+    .skill-level.animated{ transform: translateX(0); }
+
+    /* Terminal typing */
+    .terminal-text{
       border-right: 3px solid;
       white-space: nowrap;
       overflow: hidden;
       animation: typing 3.5s steps(40, end), blink 1s step-end infinite;
     }
-    
-    /* Loading animation for cards */
-    .loading-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
+
+    /* Loading bar on hover */
+    .loading-bar{
+      position:absolute;
+      top:0; left:0;
+      width:0; height:2px;
       background: linear-gradient(90deg, transparent, white, transparent);
       animation: loading 2s ease-in-out infinite;
     }
-    
-    @keyframes loading {
-      0% { left: -100%; width: 100%; }
-      100% { left: 100%; width: 10%; }
+    @keyframes loading{
+      0%{ left:-100%; width:100%; }
+      100%{ left:100%; width:10%; }
     }
-    
-    /* Project category tabs */
-    .category-tab {
-      padding: 10px 24px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      color: #aaa;
+
+    /* Reveal on scroll */
+    .reveal{
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .8s ease, transform .8s ease;
     }
-    
-    .category-tab:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      border-color: rgba(255, 255, 255, 0.3);
+    .reveal.show{
+      opacity: 1;
+      transform: translateY(0);
     }
-    
-    .category-tab.active {
-      background: white;
-      color: black;
-      border-color: white;
+
+    /* Projects grid */
+    .project-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    @media (max-width: 768px){
+      .project-grid{ grid-template-columns: 1fr; }
+      #fixed-name{ top: 16px; left: 16px; }
+    }
+
+    /* Existing binary background */
+    .binary-bg{
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -3;
+      opacity: .03;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .binary-digit{
+      position:absolute;
+      color:#fff;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      opacity:0;
+      animation: binaryFall linear infinite;
+    }
+    @keyframes binaryFall{
+      0%{ transform: translateY(-100px); opacity:0; }
+      10%{ opacity:.8; }
+      90%{ opacity:.8; }
+      100%{ transform: translateY(100vh); opacity:0; }
+    }
+
+    /* Network lines */
+    .network-line{
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      z-index:-2;
+      pointer-events:none;
+    }
+    .line{
+      position:absolute;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+      height:1px;
+      animation: lineMove linear infinite;
+    }
+    @keyframes lineMove{
+      0%{ transform: translateX(-100%); }
+      100%{ transform: translateX(100vw); }
+    }
+
+    /* Glitch text */
+    .glitch-text{ position:relative; display:inline-block; }
+    .glitch-text::before,
+    .glitch-text::after{
+      content: attr(data-text);
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+    }
+    .glitch-text::before{
+      left:2px;
+      text-shadow: -1px 0 rgba(255,0,0,.7);
+      animation: glitch-1 2s infinite linear alternate-reverse;
+    }
+    .glitch-text::after{
+      left:-2px;
+      text-shadow: 1px 0 rgba(0,255,255,.7);
+      animation: glitch-2 3s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-1{
+      0% { clip-path: inset(40% 0 61% 0); }
+      10% { clip-path: inset(43% 0 1% 0); }
+      20% { clip-path: inset(54% 0 7% 0); }
+      50% { clip-path: inset(98% 0 1% 0); }
+      80% { clip-path: inset(92% 0 3% 0); }
+      100% { clip-path: inset(60% 0 40% 0); }
+    }
+    @keyframes glitch-2{
+      0% { clip-path: inset(25% 0 58% 0); }
+      20% { clip-path: inset(48% 0 13% 0); }
+      45% { clip-path: inset(92% 0 3% 0); }
+      70% { clip-path: inset(40% 0 61% 0); }
+      100% { clip-path: inset(98% 0 1% 0); }
+    }
+
+    /* =========================
+       Liquid / Gooey Background
+       ========================= */
+    .liquid-wrap{
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .liquid-layer{
+      position:absolute;
+      inset:-20%;
+      filter: blur(18px) saturate(1.2);
+      opacity: .75;
+    }
+    .goo{
+      position:absolute;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.08) 55%, transparent 70%);
+      mix-blend-mode: screen;
+      filter: url(#gooey);
+    }
+
+    .goo.g1{ width: 560px; height: 560px; left: -120px; top: 80px; animation: blob 18s ease-in-out infinite; }
+    .goo.g2{ width: 620px; height: 620px; right: -160px; top: 160px; animation: blob2 22s ease-in-out infinite; opacity: .65; }
+    .goo.g3{ width: 520px; height: 520px; left: 22%; bottom: -180px; animation: blob3 26s ease-in-out infinite; opacity: .6; }
+
+    .liquid-shine{
+      position:absolute;
+      inset: 0;
+      background: radial-gradient(900px circle at 20% 20%, rgba(255,255,255,.08), transparent 55%),
+                  radial-gradient(800px circle at 80% 30%, rgba(255,255,255,.07), transparent 60%),
+                  radial-gradient(900px circle at 50% 90%, rgba(255,255,255,.06), transparent 55%);
+      animation: shine 3.5s ease-in-out infinite;
+      opacity: .35;
     }
   </style>
 </head>
+
 <body class="bg-black text-white">
+  <!-- Gooey SVG Filter (for liquid effect) -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="gooey">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
+      <feColorMatrix in="blur" mode="matrix"
+        values="
+          1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0 0 0 22 -9"
+        result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+    </filter>
+  </svg>
+
+  <!-- Liquid Background -->
+  <div class="liquid-wrap">
+    <div class="liquid-layer">
+      <div class="goo g1"></div>
+      <div class="goo g2"></div>
+      <div class="goo g3"></div>
+      <div class="liquid-shine"></div>
+    </div>
+  </div>
+
   <!-- Background animations -->
   <div class="binary-bg" id="binaryBg"></div>
   <div class="network-line" id="networkLine"></div>
-  
-  <!-- Fixed name in top left -->
-  <div id="fixed-name">TB</div>
-  
+
+  <!-- Fixed name -->
+  <div id="fixed-name">MTH</div>
+
   <!-- Hero Section -->
   <section class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-    <div class="max-w-5xl mx-auto text-center relative z-10">
-      <!-- Glitch effect name -->
+    <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-        <span class="glitch-text" data-text="TALHA BHATTI">TALHA BHATTI</span>
+        <span class="glitch-text" data-text="M. TALHA HUSSAIN">M. TALHA HUSSAIN</span>
       </h1>
-      
-      <!-- Terminal style typing effect -->
+
       <div class="mb-8 inline-block">
         <p class="text-xl md:text-2xl text-gray-300 terminal-text">
-          <span class="text-white font-mono">$</span> IT Engineer | Network Specialist | Software Developer
+          <span class="text-white font-mono">$</span> Senior IT Engineer | Network Architect | Software Developer
         </p>
       </div>
-      
+
       <p class="text-lg md:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto mb-12">
-        Building enterprise-level IT infrastructure, network solutions, and custom software 
-        with a focus on performance, security, and automation.
+        Designing and implementing enterprise-level IT infrastructure, network solutions, and custom software
+        with focus on scalability, security, and automation for businesses across Pakistan.
       </p>
-      
+
       <div class="flex flex-wrap justify-center gap-6">
         <a href="#skills" class="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-code mr-2"></i>View Skills
+          <i class="fas fa-code mr-2"></i>Technical Skills
         </a>
         <a href="#projects" class="px-8 py-3 border border-white/30 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-project-diagram mr-2"></i>See Projects
+          <i class="fas fa-project-diagram mr-2"></i>View Projects
         </a>
         <a href="#contact" class="px-8 py-3 border border-white/30 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-envelope mr-2"></i>Contact Me
+          <i class="fas fa-envelope mr-2"></i>Contact Now
         </a>
       </div>
     </div>
-    
-    <!-- Scroll indicator -->
+
     <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
       <i class="fas fa-chevron-down text-white/60 text-xl"></i>
     </div>
@@ -409,359 +403,321 @@
   <!-- Skills Section -->
   <section id="skills" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
         <span class="animated-underline">Technical Expertise</span>
       </h2>
-      <p class="text-gray-400 text-lg mb-16 max-w-3xl">
-        Specialized in full-stack IT solutions from network infrastructure to custom software development.
+      <p class="text-gray-400 text-lg mb-16 max-w-3xl reveal">
+        Full-stack IT solutions specialist with expertise in network architecture, software development, enterprise systems administration, and PBX call center operations.
       </p>
-      
+
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        <div class="card p-8 rounded-2xl">
+        <div class="card p-8 rounded-2xl reveal">
           <div class="text-3xl mb-6 text-white">
             <i class="fas fa-network-wired"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-4">Networking</h3>
+          <h3 class="text-2xl font-bold mb-4">Network Architecture</h3>
           <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>MikroTik & Unifi Solutions</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Sophos Firewall & Security</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>P2P & VPN Network Design</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Network Monitoring & Automation</span>
-            </li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>MikroTik & Unifi Enterprise Solutions</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Sophos Firewall & Advanced Security</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>P2P & VPN Network Design & Implementation</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise Network Monitoring & Automation</span></li>
           </ul>
         </div>
-        
-        <div class="card p-8 rounded-2xl">
+
+        <div class="card p-8 rounded-2xl reveal">
           <div class="text-3xl mb-6 text-white">
             <i class="fas fa-code"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-4">Development</h3>
+          <h3 class="text-2xl font-bold mb-4">Software Development</h3>
           <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Web Applications & APIs</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Windows & Android Software</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Database Design (SQL)</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Automation & Integration</span>
-            </li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise Web Applications & REST APIs</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Windows Desktop & Android Mobile Applications</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Database Design & Optimization (SQL)</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Business Process Automation & System Integration</span></li>
           </ul>
         </div>
-        
-        <div class="card p-8 rounded-2xl">
+
+        <div class="card p-8 rounded-2xl reveal">
           <div class="text-3xl mb-6 text-white">
             <i class="fas fa-shield-alt"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-4">Security & CCTV</h3>
+          <h3 class="text-2xl font-bold mb-4">Security & Surveillance</h3>
           <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>IP Camera Systems Design</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Face Recognition Software</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Centralized Monitoring</span>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Cloud & Local Storage Solutions</span>
-            </li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise IP CCTV Systems Design</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>AI-Powered Face Recognition Software</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Centralized Multi-Site Monitoring Solutions</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Hybrid Cloud & Local Storage Architectures</span></li>
+          </ul>
+        </div>
+
+        <!-- ✅ NEW SKILL CARD: PBX -->
+        <div class="card p-8 rounded-2xl reveal">
+          <div class="text-3xl mb-6 text-white">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">PBX Call Center Management</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>PBX System Configuration & Maintenance</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>IVR Design, Call Routing & Extensions</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Queue Management, Recording & Monitoring</span></li>
+            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Reports, KPIs & Agent Performance Tracking</span></li>
           </ul>
         </div>
       </div>
-      
+
       <!-- Skill bars -->
       <div class="grid md:grid-cols-2 gap-12">
-        <div>
+        <div class="reveal">
           <h3 class="text-2xl font-bold mb-8">Technical Proficiency</h3>
           <div class="space-y-8">
             <div>
               <div class="flex justify-between mb-2">
-                <span class="font-medium">Network Engineering</span>
+                <span class="font-medium">Network Engineering & Architecture</span>
                 <span class="text-gray-400">95%</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 95%"></div>
-              </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 95%"></div></div>
             </div>
-            
+
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Software Development</span>
-                <span class="text-gray-400">90%</span>
+                <span class="text-gray-400">70%</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 90%"></div>
-              </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div>
             </div>
-            
+
             <div>
               <div class="flex justify-between mb-2">
-                <span class="font-medium">System Administration</span>
+                <span class="font-medium">IT System Administration</span>
                 <span class="text-gray-400">88%</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 88%"></div>
+              <div class="skill-bar"><div class="skill-level" style="width: 88%"></div></div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">PBX / Call Center Operations</span>
+                <span class="text-gray-400">80%</span>
               </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
             </div>
           </div>
         </div>
-        
-        <div>
+
+        <div class="reveal">
           <h3 class="text-2xl font-bold mb-8">Project Experience</h3>
           <div class="space-y-8">
             <div>
               <div class="flex justify-between mb-2">
-                <span class="font-medium">Large-Scale Networks</span>
-                <span class="text-gray-400">50+</span>
+                <span class="font-medium">Large-Scale Enterprise Networks</span>
+                <span class="text-gray-400">100+</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 100%"></div>
-              </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 100%"></div></div>
             </div>
-            
+
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Custom Software Solutions</span>
                 <span class="text-gray-400">30+</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 85%"></div>
-              </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div>
             </div>
-            
+
             <div>
               <div class="flex justify-between mb-2">
-                <span class="font-medium">CCTV Systems</span>
+                <span class="font-medium">CCTV & Security Systems</span>
                 <span class="text-gray-400">25+</span>
               </div>
-              <div class="skill-bar">
-                <div class="skill-level" style="width: 80%"></div>
-              </div>
+              <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- Experience Section -->
   <section class="py-24 px-6 bg-gradient-to-b from-black to-gray-900/20">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
         <span class="animated-underline">Professional Experience</span>
       </h2>
-      
-      <div class="card p-8 md:p-12 rounded-2xl max-w-4xl mx-auto">
+
+      <div class="card p-8 md:p-12 rounded-2xl max-w-4xl mx-auto reveal">
         <div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
           <div class="bg-white/10 p-4 rounded-xl">
             <i class="fas fa-building text-3xl text-white"></i>
           </div>
           <div>
-            <h3 class="text-2xl md:text-3xl font-bold">IT & Network Engineer</h3>
+            <h3 class="text-2xl md:text-3xl font-bold">Senior IT & Network Engineer</h3>
             <p class="text-xl text-gray-300 mt-1">Kababjees · Full-time</p>
-            <p class="text-gray-400 mt-3">Nationwide IT infrastructure management for 50+ locations across Pakistan</p>
+            <p class="text-gray-400 mt-3">Managing IT infrastructure for 100+ locations all over Pakistan</p>
           </div>
         </div>
-        
+
         <div class="grid md:grid-cols-2 gap-6">
           <div class="p-6 bg-white/5 rounded-xl">
-            <h4 class="text-lg font-bold mb-3">Responsibilities</h4>
+            <h4 class="text-lg font-bold mb-3">Core Responsibilities</h4>
             <ul class="space-y-2 text-gray-300">
-              <li class="flex items-start">
-                <i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i>
-                <span>Design and maintain enterprise network infrastructure</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i>
-                <span>Develop custom software solutions for business needs</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i>
-                <span>Implement and manage CCTV surveillance systems</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i>
-                <span>Provide technical support and training to teams</span>
-              </li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Design and deploy enterprise network infrastructure</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Develop custom software solutions for business operations</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Implement and manage enterprise CCTV surveillance systems</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Provide technical leadership and team training</span></li>
             </ul>
           </div>
-          
+
           <div class="p-6 bg-white/5 rounded-xl">
             <h4 class="text-lg font-bold mb-3">Key Achievements</h4>
             <ul class="space-y-2 text-gray-300">
-              <li class="flex items-start">
-                <i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i>
-                <span>Reduced network downtime by 75% through automation</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i>
-                <span>Designed city-wide CCTV monitoring systems</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i>
-                <span>Developed 15+ custom applications for business operations</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i>
-                <span>Implemented secure P2P networks for 30+ locations</span>
-              </li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Reduced network downtime by 75% through automation</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Designed city-wide CCTV monitoring systems for 10+ cities</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Developed 15+ custom applications improving business efficiency</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Implemented secure P2P networks for 100+ locations</span></li>
             </ul>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- Projects Section -->
   <section id="projects" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title">
-        <span class="animated-underline">Featured Projects</span>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
+        <span class="animated-underline">Professional Projects</span>
       </h2>
-      <p class="text-gray-400 text-lg mb-12 max-w-3xl">
-        A selection of enterprise-level projects in networking, software development, and security systems.
+      <p class="text-gray-400 text-lg mb-12 max-w-3xl reveal">
+        A comprehensive portfolio of enterprise-level projects showcasing expertise in networking, software development, and security systems.
       </p>
-      
-      <!-- Project category tabs -->
-      <div class="flex flex-wrap gap-4 mb-12">
-        <button class="category-tab active" data-category="all">All Projects</button>
-        <button class="category-tab" data-category="network">Network Infrastructure</button>
-        <button class="category-tab" data-category="software">Software Solutions</button>
-        <button class="category-tab" data-category="security">Security Systems</button>
-      </div>
-      
-      <!-- Projects Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Network Projects -->
-        <div class="card p-6 rounded-2xl" data-category="network">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Unifi Network Design & Management</h3>
-          <p class="text-gray-400 mb-4">Complete enterprise network design with centralized remote management for multi-site deployment.</p>
+
+      <div class="project-grid">
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-project-diagram"></i></div>
+          <h3 class="text-xl font-bold mb-3">Unifi Complete Network Design & Remote Management</h3>
+          <p class="text-gray-400 mb-4">Complete enterprise network design with centralized remote management for multi-site deployment across Pakistan.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Unifi</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Design</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Enterprise Network</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Remote Management</span>
           </div>
         </div>
-        
-        <div class="card p-6 rounded-2xl" data-category="network">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-city"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3">CCTV P2P Network Design</h3>
-          <p class="text-gray-400 mb-4">City-to-city CCTV monitoring system with centralized control and real-time surveillance.</p>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-city"></i></div>
+          <h3 class="text-xl font-bold mb-3">CCTV P2P Network Design - City-to-City Monitoring</h3>
+          <p class="text-gray-400 mb-4">Enterprise CCTV monitoring system with P2P architecture for centralized control across multiple cities.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">CCTV</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">P2P</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">P2P Network</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Centralized Monitoring</span>
           </div>
         </div>
-        
-        <!-- Software Projects -->
-        <div class="card p-6 rounded-2xl" data-category="software">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-database"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Data Recovery Solutions</h3>
-          <p class="text-gray-400 mb-4">Advanced data recovery system for formatted drives and corrupted storage devices.</p>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-database"></i></div>
+          <h3 class="text-xl font-bold mb-3">Advanced Data Recovery System</h3>
+          <p class="text-gray-400 mb-4">Professional data recovery solutions for formatted drives, corrupted storage, and accidental deletions.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Data Recovery</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Storage</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Backup</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Storage Solutions</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Backup Systems</span>
           </div>
         </div>
-        
-        <div class="card p-6 rounded-2xl" data-category="software">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-comments"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Customer Feedback System</h3>
-          <p class="text-gray-400 mb-4">Full-stack feedback management with email and Microsoft Teams integration.</p>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-comments"></i></div>
+          <h3 class="text-xl font-bold mb-3">Enterprise Customer Feedback System</h3>
+          <p class="text-gray-400 mb-4">Full-stack feedback management platform with email and Microsoft Teams integration.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Web App</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">API</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Integration</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Web Application</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">API Integration</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Microsoft Teams</span>
           </div>
         </div>
-        
-        <div class="card p-6 rounded-2xl" data-category="software">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-robot"></i>
-          </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-robot"></i></div>
           <h3 class="text-xl font-bold mb-3">MikroTik Automation Controller</h3>
-          <p class="text-gray-400 mb-4">Windows-based automation system for centralized MikroTik device management.</p>
+          <p class="text-gray-400 mb-4">Windows-based automation system for centralized MikroTik device management and monitoring.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Automation</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MikroTik</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows Application</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-secret"></i></div>
+          <h3 class="text-xl font-bold mb-3">AI-Powered Face Recognition CCTV</h3>
+          <p class="text-gray-400 mb-4">Advanced face recognition system integrated with CCTV networks for enhanced security monitoring.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">AI Technology</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Face Recognition</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Security Systems</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-boxes"></i></div>
+          <h3 class="text-xl font-bold mb-3">Enterprise Inventory Management System</h3>
+          <p class="text-gray-400 mb-4">Comprehensive inventory and asset tracking system with automated reporting and analytics.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Inventory Management</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Asset Tracking</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Reporting System</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket-alt"></i></div>
+          <h3 class="text-xl font-bold mb-3">Digital Coupon Verification System</h3>
+          <p class="text-gray-400 mb-4">Automated coupon validation system with real-time notifications via email and Microsoft Teams.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Automation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MikroTik</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Validation System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Notifications</span>
           </div>
         </div>
-        
-        <!-- Security Projects -->
-        <div class="card p-6 rounded-2xl" data-category="security">
-          <div class="text-2xl mb-4 text-white">
-            <i class="fas fa-user-secret"></i>
-          </div>
-          <h3 class="text-xl font-bold mb-3">Face Recognition CCTV</h3>
-          <p class="text-gray-400 mb-4">AI-powered face recognition integrated with CCTV systems for enhanced security.</p>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-clock"></i></div>
+          <h3 class="text-xl font-bold mb-3">Location-Based Attendance System</h3>
+          <p class="text-gray-400 mb-4">GPS-enabled attendance system with image capture for employee authentication and tracking.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">AI</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Face Recognition</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Security</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Location Tracking</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Image Authentication</span>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <!-- Contact Section -->
   <section id="contact" class="py-24 px-6 bg-gradient-to-b from-gray-900/20 to-black">
     <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title inline-block">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title inline-block reveal">
         <span class="animated-underline">Get In Touch</span>
       </h2>
-      <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
-        Interested in collaborating on an IT project? Let's connect and discuss how I can help with your network, software, or security needs.
+      <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto reveal">
+        Interested in enterprise IT solutions? Let's connect and discuss how I can help with your network, software, or security requirements.
       </p>
-      
-      <div class="card p-8 rounded-2xl max-w-2xl mx-auto">
+
+      <div class="card p-8 rounded-2xl max-w-2xl mx-auto reveal">
         <div class="grid md:grid-cols-2 gap-8 mb-8">
-          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank" 
+          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank"
              class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
             <div class="text-3xl mb-4 text-white group-hover:text-blue-500">
               <i class="fab fa-linkedin"></i>
             </div>
             <h3 class="text-xl font-bold mb-2">LinkedIn</h3>
-            <p class="text-gray-400">Connect professionally</p>
+            <p class="text-gray-400">Professional Network</p>
           </a>
-          
-          <a href="mailto:talhabhatti0160@gmail.com" 
+
+          <a href="mailto:talhabhatti0160@gmail.com"
              class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
             <div class="text-3xl mb-4 text-white group-hover:text-red-500">
               <i class="fas fa-envelope"></i>
@@ -769,8 +725,8 @@
             <h3 class="text-xl font-bold mb-2">Email</h3>
             <p class="text-gray-400">talhabhatti0160@gmail.com</p>
           </a>
-          
-          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank" 
+
+          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank"
              class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
             <div class="text-3xl mb-4 text-white group-hover:text-pink-500">
               <i class="fab fa-instagram"></i>
@@ -778,8 +734,8 @@
             <h3 class="text-xl font-bold mb-2">Instagram</h3>
             <p class="text-gray-400">@talha_bhatti0000</p>
           </a>
-          
-          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank" 
+
+          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank"
              class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
             <div class="text-3xl mb-4 text-white group-hover:text-gray-300">
               <i class="fas fa-comment"></i>
@@ -788,10 +744,10 @@
             <p class="text-gray-400">@talha_bhatti0000</p>
           </a>
         </div>
-        
+
         <div class="pt-8 border-t border-white/10">
-          <p class="text-gray-400">Available for freelance projects and consulting</p>
-          <p class="text-lg mt-2">📍 Based in Pakistan · 🌐 Remote work available</p>
+          <p class="text-gray-400">Available for enterprise projects and technical consulting</p>
+          <p class="text-lg mt-2">Professional IT solutions for businesses across Pakistan</p>
         </div>
       </div>
     </div>
@@ -804,194 +760,133 @@
         <div class="mb-6 md:mb-0">
           <div class="flex items-center">
             <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-3">
-              <span class="text-black font-bold text-lg">TB</span>
+              <span class="text-black font-bold text-lg">MTH</span>
             </div>
             <div>
-              <h3 class="text-xl font-bold">Talha Bhatti</h3>
-              <p class="text-gray-400 text-sm">IT & Network Engineer</p>
+              <h3 class="text-xl font-bold">M. Talha Hussain</h3>
+              <p class="text-gray-400 text-sm">Senior IT & Network Engineer</p>
             </div>
           </div>
         </div>
-        
+
         <div class="flex space-x-6">
-          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank" 
-             class="text-gray-400 hover:text-white transition">
+          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank" class="text-gray-400 hover:text-white transition">
             <i class="fab fa-linkedin text-xl"></i>
           </a>
-          <a href="mailto:talhabhatti0160@gmail.com" 
-             class="text-gray-400 hover:text-white transition">
+          <a href="mailto:talhabhatti0160@gmail.com" class="text-gray-400 hover:text-white transition">
             <i class="fas fa-envelope text-xl"></i>
           </a>
-          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank" 
-             class="text-gray-400 hover:text-white transition">
+          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank" class="text-gray-400 hover:text-white transition">
             <i class="fab fa-instagram text-xl"></i>
           </a>
-          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank" 
-             class="text-gray-400 hover:text-white transition">
+          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank" class="text-gray-400 hover:text-white transition">
             <i class="fas fa-comment text-xl"></i>
           </a>
         </div>
       </div>
-      
+
       <div class="text-center mt-8 pt-8 border-t border-white/10">
-        <p class="text-gray-400">© 2026 Talha Bhatti. All rights reserved.</p>
-        <p class="text-gray-500 text-sm mt-2">Built with precision for enterprise IT solutions</p>
+        <p class="text-gray-400">© 2026 M. Talha Hussain. All rights reserved.</p>
+        <p class="text-gray-500 text-sm mt-2">Enterprise IT Solutions · Network Architecture · Software Development</p>
       </div>
     </div>
   </footer>
 
   <script>
-    // Create binary background animation
+    // Binary background
     function createBinaryBackground() {
       const binaryBg = document.getElementById('binaryBg');
       const digits = ['0', '1'];
-      
       for (let i = 0; i < 100; i++) {
-        const binaryDigit = document.createElement('div');
-        binaryDigit.className = 'binary-digit';
-        binaryDigit.textContent = digits[Math.floor(Math.random() * digits.length)];
-        
-        // Random position
-        binaryDigit.style.left = `${Math.random() * 100}%`;
-        
-        // Random animation duration and delay
+        const el = document.createElement('div');
+        el.className = 'binary-digit';
+        el.textContent = digits[Math.floor(Math.random() * digits.length)];
+        el.style.left = `${Math.random() * 100}%`;
         const duration = 10 + Math.random() * 20;
         const delay = Math.random() * 5;
-        
-        binaryDigit.style.animationDuration = `${duration}s`;
-        binaryDigit.style.animationDelay = `${delay}s`;
-        
-        binaryBg.appendChild(binaryDigit);
+        el.style.animationDuration = `${duration}s`;
+        el.style.animationDelay = `${delay}s`;
+        binaryBg.appendChild(el);
       }
     }
-    
-    // Create network lines animation
+
+    // Network lines
     function createNetworkLines() {
       const networkLine = document.getElementById('networkLine');
-      
       for (let i = 0; i < 20; i++) {
         const line = document.createElement('div');
         line.className = 'line';
-        
-        // Random vertical position
-        const top = Math.random() * 100;
-        line.style.top = `${top}%`;
-        
-        // Random width
-        const width = 100 + Math.random() * 200;
-        line.style.width = `${width}px`;
-        
-        // Random animation duration and delay
-        const duration = 20 + Math.random() * 30;
-        const delay = Math.random() * 10;
-        
-        line.style.animationDuration = `${duration}s`;
-        line.style.animationDelay = `${delay}s`;
-        
+        line.style.top = `${Math.random() * 100}%`;
+        line.style.width = `${100 + Math.random() * 200}px`;
+        line.style.animationDuration = `${20 + Math.random() * 30}s`;
+        line.style.animationDelay = `${Math.random() * 10}s`;
         networkLine.appendChild(line);
       }
     }
-    
-    // Handle scroll animations
+
+    // Show fixed name + animate skill bars
     function handleScrollAnimations() {
       const fixedName = document.getElementById('fixed-name');
-      
-      // Show/hide fixed name on scroll
-      if (window.scrollY > 100) {
-        fixedName.classList.add('visible');
-      } else {
-        fixedName.classList.remove('visible');
-      }
-      
-      // Animate skill bars when in view
-      const skillBars = document.querySelectorAll('.skill-level');
-      skillBars.forEach(bar => {
+
+      if (window.scrollY > 100) fixedName.classList.add('visible');
+      else fixedName.classList.remove('visible');
+
+      document.querySelectorAll('.skill-level').forEach(bar => {
         const rect = bar.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.9) {
-          bar.classList.add('animated');
-        }
+        if (rect.top < window.innerHeight * 0.9) bar.classList.add('animated');
       });
     }
-    
-    // Filter projects by category
-    function filterProjects(category) {
-      const projectCards = document.querySelectorAll('[data-category]');
-      const categoryTabs = document.querySelectorAll('.category-tab');
-      
-      // Update active tab
-      categoryTabs.forEach(tab => {
-        tab.classList.remove('active');
-        if (tab.dataset.category === category) {
-          tab.classList.add('active');
-        }
-      });
-      
-      // Filter cards
-      projectCards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = 'block';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 10);
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-          setTimeout(() => {
-            card.style.display = 'none';
-          }, 300);
-        }
-      });
+
+    // Scroll reveal (Liquid-tech style smooth)
+    function initReveal() {
+      const items = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) e.target.classList.add('show');
+        });
+      }, { threshold: 0.12 });
+      items.forEach(i => io.observe(i));
     }
-    
-    // Initialize everything when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      createBinaryBackground();
-      createNetworkLines();
-      handleScrollAnimations();
-      
-      // Listen for scroll events
-      window.addEventListener('scroll', handleScrollAnimations);
-      
-      // Setup project category filtering
-      const categoryTabs = document.querySelectorAll('.category-tab');
-      categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          filterProjects(this.dataset.category);
+
+    // Card glow follows mouse
+    function initCardGlow() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const r = card.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 100;
+          const y = ((e.clientY - r.top) / r.height) * 100;
+          card.style.setProperty('--mx', x + '%');
+          card.style.setProperty('--my', y + '%');
         });
       });
-      
-      // Animate skill bars after a delay
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      createBinaryBackground();
+      createNetworkLines();
+      initReveal();
+      initCardGlow();
+      handleScrollAnimations();
+
+      window.addEventListener('scroll', handleScrollAnimations);
+
       setTimeout(() => {
         document.querySelectorAll('.skill-level').forEach(bar => {
           const rect = bar.getBoundingClientRect();
-          if (rect.top < window.innerHeight) {
-            bar.classList.add('animated');
-          }
+          if (rect.top < window.innerHeight) bar.classList.add('animated');
         });
       }, 500);
-      
-      // Make email clickable
-      document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'mailto:talhabhatti0160@gmail.com';
-        });
-      });
-      
-      // Add loading bar animation to cards on hover
+
+      // Loading bar on hover
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mouseenter', function() {
           const loadingBar = document.createElement('div');
           loadingBar.className = 'loading-bar';
           this.appendChild(loadingBar);
         });
-        
         card.addEventListener('mouseleave', function() {
           const loadingBar = this.querySelector('.loading-bar');
-          if (loadingBar) {
-            loadingBar.remove();
-          }
+          if (loadingBar) loadingBar.remove();
         });
       });
     });
