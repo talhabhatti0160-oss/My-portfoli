@@ -25,6 +25,7 @@
             'blob2': 'blob2 22s ease-in-out infinite',
             'blob3': 'blob3 26s ease-in-out infinite',
             'shine': 'shine 3.5s ease-in-out infinite',
+            'pulse-border': 'pulse-border 2s ease-in-out infinite',
           },
           keyframes: {
             float: {
@@ -61,6 +62,10 @@
             shine: {
               '0%, 100%': { opacity: .25 },
               '50%': { opacity: .55 },
+            },
+            'pulse-border': {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.5 },
             }
           }
         }
@@ -76,6 +81,30 @@
       overflow-x: hidden;
       background: #000;
       color: #fff;
+      cursor: none;
+    }
+
+    /* Modern cursor */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: white;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s;
+    }
+    
+    .cursor-outline {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.2s ease-out;
     }
 
     /* Modern scrollbar */
@@ -84,6 +113,129 @@
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
     ::-webkit-scrollbar-thumb:hover { background: #444; }
 
+    /* =========================
+       PILL-SHAPED FLOATING NAVBAR
+       ========================= */
+    #floating-nav {
+      position: fixed;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: auto;
+      max-width: 90%;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    #floating-nav.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .nav-pill {
+      display: flex;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 6px;
+      box-shadow: 
+        0 10px 35px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 30px rgba(255, 255, 255, 0.05) inset;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 9999px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    
+    .nav-item:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .nav-item.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .nav-item i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+    
+    .nav-indicator {
+      position: absolute;
+      top: 6px;
+      height: calc(100% - 12px);
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+      z-index: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Mobile responsive navbar */
+    @media (max-width: 768px) {
+      #floating-nav {
+        top: 15px;
+        max-width: 95%;
+      }
+      
+      .nav-pill {
+        padding: 4px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+      }
+      
+      .nav-pill::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .nav-item {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+      
+      .nav-item i {
+        margin-right: 6px;
+        font-size: 0.9rem;
+      }
+    }
+    
     /* Fixed name */
     #fixed-name{
       position: fixed;
@@ -257,6 +409,35 @@
       100%{ transform: translateX(100vw); }
     }
 
+    /* Network nodes animation */
+    .network-nodes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .node {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
+    
+    .connection {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
     /* Glitch text */
     .glitch-text{ position:relative; display:inline-block; }
     .glitch-text::before,
@@ -332,6 +513,10 @@
 </head>
 
 <body class="bg-black text-white">
+  <!-- Custom cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
   <!-- Gooey SVG Filter (for liquid effect) -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="gooey">
@@ -357,15 +542,40 @@
     </div>
   </div>
 
+  <!-- Network animation -->
+  <div class="network-nodes" id="networkNodes"></div>
+
   <!-- Background animations -->
   <div class="binary-bg" id="binaryBg"></div>
   <div class="network-line" id="networkLine"></div>
+
+  <!-- Pill-shaped Floating Navbar -->
+  <div id="floating-nav">
+    <div class="nav-pill">
+      <div class="nav-indicator" id="navIndicator"></div>
+      <a href="#home" class="nav-item active" data-section="home">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <a href="#skills" class="nav-item" data-section="skills">
+        <i class="fas fa-code"></i> Skills
+      </a>
+      <a href="#experience" class="nav-item" data-section="experience">
+        <i class="fas fa-briefcase"></i> Experience
+      </a>
+      <a href="#projects" class="nav-item" data-section="projects">
+        <i class="fas fa-project-diagram"></i> Projects
+      </a>
+      <a href="#contact" class="nav-item" data-section="contact">
+        <i class="fas fa-envelope"></i> Contact
+      </a>
+    </div>
+  </div>
 
   <!-- Fixed name -->
   <div id="fixed-name">MTH</div>
 
   <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+  <section id="home" class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
     <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
         <span class="glitch-text" data-text="M. TALHA HUSSAIN">M. TALHA HUSSAIN</span>
@@ -538,7 +748,7 @@
   </section>
 
   <!-- Experience Section -->
-  <section class="py-24 px-6 bg-gradient-to-b from-black to-gray-900/20">
+  <section id="experience" class="py-24 px-6 bg-gradient-to-b from-black to-gray-900/20">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
         <span class="animated-underline">Professional Experience</span>
@@ -593,6 +803,7 @@
       </p>
 
       <div class="project-grid">
+        <!-- Original Projects -->
         <div class="card p-6 rounded-2xl reveal">
           <div class="text-2xl mb-4 text-white"><i class="fas fa-project-diagram"></i></div>
           <h3 class="text-xl font-bold mb-3">Unifi Complete Network Design & Remote Management</h3>
@@ -626,14 +837,64 @@
           </div>
         </div>
 
+        <!-- NEW PROJECTS ADDED FROM YOUR LIST -->
         <div class="card p-6 rounded-2xl reveal">
           <div class="text-2xl mb-4 text-white"><i class="fas fa-comments"></i></div>
-          <h3 class="text-xl font-bold mb-3">Enterprise Customer Feedback System</h3>
-          <p class="text-gray-400 mb-4">Full-stack feedback management platform with email and Microsoft Teams integration.</p>
+          <h3 class="text-xl font-bold mb-3">Customer Feedback System (Website)</h3>
+          <p class="text-gray-400 mb-4">Complete feedback management system with customer portal, admin dashboard, email notifications and Microsoft Teams integration.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Web Application</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">API Integration</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Microsoft Teams</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Notifications</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-laptop"></i></div>
+          <h3 class="text-xl font-bold mb-3">Windows Software Inventory Management</h3>
+          <p class="text-gray-400 mb-4">Enterprise Windows-based software inventory tracking, asset management, and license compliance system.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows Software</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Inventory Management</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Asset Tracking</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">License Management</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket-alt"></i></div>
+          <h3 class="text-xl font-bold mb-3">Ticket Management & Demand Approval System</h3>
+          <p class="text-gray-400 mb-4">Complete IT ticketing system with workflow automation, demand tracking, and multi-level approval processes.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Ticket System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Workflow Automation</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Approval Process</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">ITSM</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-tag"></i></div>
+          <h3 class="text-xl font-bold mb-3">Coupon Verification System</h3>
+          <p class="text-gray-400 mb-4">Automated coupon validation platform with real-time notifications via email & Microsoft Teams, fraud prevention.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Coupon System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Validation</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Email/Teams Integration</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Fraud Prevention</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-check"></i></div>
+          <h3 class="text-xl font-bold mb-3">Attendance Management System</h3>
+          <p class="text-gray-400 mb-4">GPS-based attendance system with photo capture, location verification, and biometric integration.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">GPS Location</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Photo Capture</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Biometric</span>
           </div>
         </div>
 
@@ -645,52 +906,82 @@
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Automation</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MikroTik</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows Application</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Centralized Control</span>
+          </div>
+        </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-tv"></i></div>
+          <h3 class="text-xl font-bold mb-3">Digital Signage Software</h3>
+          <p class="text-gray-400 mb-4">Cross-platform digital signage solution for Android & Windows screens with centralized content management.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Digital Signage</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Android/Windows</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Content Management</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Multi-screen</span>
           </div>
         </div>
 
         <div class="card p-6 rounded-2xl reveal">
           <div class="text-2xl mb-4 text-white"><i class="fas fa-user-secret"></i></div>
-          <h3 class="text-xl font-bold mb-3">AI-Powered Face Recognition CCTV</h3>
-          <p class="text-gray-400 mb-4">Advanced face recognition system integrated with CCTV networks for enhanced security monitoring.</p>
+          <h3 class="text-xl font-bold mb-3">Face Recognition Software with CCTV Integration</h3>
+          <p class="text-gray-400 mb-4">AI-powered face recognition system integrated with CCTV networks for security monitoring and access control.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">AI Technology</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Face Recognition</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">CCTV Integration</span>
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Security Systems</span>
           </div>
         </div>
 
         <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-boxes"></i></div>
-          <h3 class="text-xl font-bold mb-3">Enterprise Inventory Management System</h3>
-          <p class="text-gray-400 mb-4">Comprehensive inventory and asset tracking system with automated reporting and analytics.</p>
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-bell"></i></div>
+          <h3 class="text-xl font-bold mb-3">Food Item Expiry Notifier Software</h3>
+          <p class="text-gray-400 mb-4">Inventory management system with automated expiry date tracking and notification system for food items.</p>
           <div class="flex flex-wrap gap-2">
             <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Inventory Management</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Asset Tracking</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Reporting System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Expiry Tracking</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Automated Alerts</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Food Safety</span>
           </div>
         </div>
 
         <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket-alt"></i></div>
-          <h3 class="text-xl font-bold mb-3">Digital Coupon Verification System</h3>
-          <p class="text-gray-400 mb-4">Automated coupon validation system with real-time notifications via email and Microsoft Teams.</p>
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-fingerprint"></i></div>
+          <h3 class="text-xl font-bold mb-3">ZK Tech Attendance Machine Integration</h3>
+          <p class="text-gray-400 mb-4">Integration with ZK biometric devices for attendance tracking, report generation, and payroll processing.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Automation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Validation System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Notifications</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Biometric Integration</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">ZK Tech</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance Reports</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Payroll Integration</span>
           </div>
         </div>
 
         <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-clock"></i></div>
-          <h3 class="text-xl font-bold mb-3">Location-Based Attendance System</h3>
-          <p class="text-gray-400 mb-4">GPS-enabled attendance system with image capture for employee authentication and tracking.</p>
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-chart-network"></i></div>
+          <h3 class="text-xl font-bold mb-3">Network Monitoring Software</h3>
+          <p class="text-gray-400 mb-4">Enterprise network monitoring solution with real-time alerts, performance tracking, and outage detection.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Location Tracking</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Image Authentication</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Monitoring</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Alerts</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Performance Tracking</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Outage Detection</span>
           </div>
         </div>
+
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket"></i></div>
+          <h3 class="text-xl font-bold mb-3">Customer Token Waiting System</h3>
+          <p class="text-gray-400 mb-4">Queue management system with token generation, wait time estimation, and customer notification features.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Queue Management</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Token System</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Wait Time Estimation</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Customer Notifications</span>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -793,6 +1084,33 @@
   </footer>
 
   <script>
+    // Custom cursor
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+    
+    document.addEventListener('mousemove', (e) => {
+      cursorDot.style.left = `${e.clientX}px`;
+      cursorDot.style.top = `${e.clientY}px`;
+      
+      setTimeout(() => {
+        cursorOutline.style.left = `${e.clientX}px`;
+        cursorOutline.style.top = `${e.clientY}px`;
+      }, 50);
+    });
+    
+    // Interactive cursor effects
+    document.querySelectorAll('a, button, .card, .nav-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorOutline.style.transform = 'scale(1.5)';
+        cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        cursorOutline.style.transform = 'scale(1)';
+        cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+      });
+    });
+
     // Binary background
     function createBinaryBackground() {
       const binaryBg = document.getElementById('binaryBg');
@@ -822,6 +1140,169 @@
         line.style.animationDelay = `${Math.random() * 10}s`;
         networkLine.appendChild(line);
       }
+    }
+
+    // Network nodes animation
+    function createNetworkNodes() {
+      const container = document.getElementById('networkNodes');
+      const nodes = [];
+      const connections = [];
+      
+      // Create nodes
+      for (let i = 0; i < 30; i++) {
+        const node = document.createElement('div');
+        node.className = 'node';
+        node.style.left = `${Math.random() * 100}%`;
+        node.style.top = `${Math.random() * 100}%`;
+        node.style.animationDuration = `${3 + Math.random() * 5}s`;
+        node.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(node);
+        nodes.push(node);
+      }
+      
+      // Create connections
+      for (let i = 0; i < 15; i++) {
+        if (nodes.length > i * 2 + 1) {
+          const conn = document.createElement('div');
+          conn.className = 'connection';
+          container.appendChild(conn);
+          connections.push(conn);
+        }
+      }
+      
+      // Mouse move effect for network animation
+      document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        // Move nodes slightly towards cursor
+        nodes.forEach((node, i) => {
+          const nodeX = parseFloat(node.style.left) / 100;
+          const nodeY = parseFloat(node.style.top) / 100;
+          const distance = Math.sqrt(Math.pow(x - nodeX, 2) + Math.pow(y - nodeY, 2));
+          
+          if (distance < 0.3) {
+            const moveX = (x - nodeX) * 0.5;
+            const moveY = (y - nodeY) * 0.5;
+            
+            node.style.transform = `translate(${moveX * 20}px, ${moveY * 20}px)`;
+            node.style.background = 'rgba(255, 255, 255, 0.9)';
+            node.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8)';
+          } else {
+            node.style.transform = 'translate(0, 0)';
+            node.style.background = 'rgba(255, 255, 255, 0.6)';
+            node.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
+          }
+        });
+        
+        // Update connections
+        connections.forEach((conn, i) => {
+          const startNode = nodes[i * 2];
+          const endNode = nodes[i * 2 + 1];
+          
+          if (startNode && endNode) {
+            const startX = parseFloat(startNode.style.left) + 3;
+            const startY = parseFloat(startNode.style.top) + 3;
+            const endX = parseFloat(endNode.style.left) + 3;
+            const endY = parseFloat(endNode.style.top) + 3;
+            
+            const dx = endX - startX;
+            const dy = endY - startY;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            conn.style.width = `${length}px`;
+            conn.style.left = `${startX}%`;
+            conn.style.top = `${startY}%`;
+            conn.style.transform = `rotate(${angle}deg)`;
+            
+            // Pulsing effect based on mouse proximity
+            const connCenterX = (startX + endX) / 2;
+            const connCenterY = (startY + endY) / 2;
+            const mouseDist = Math.sqrt(
+              Math.pow(x * 100 - connCenterX, 2) + 
+              Math.pow(y * 100 - connCenterY, 2)
+            );
+            
+            if (mouseDist < 30) {
+              conn.style.opacity = '0.8';
+              conn.style.animation = 'pulse-border 1s ease-in-out infinite';
+            } else {
+              conn.style.opacity = '0.2';
+              conn.style.animation = 'none';
+            }
+          }
+        });
+      });
+    }
+
+    // Floating Navbar
+    function initFloatingNavbar() {
+      const floatingNav = document.getElementById('floating-nav');
+      const navItems = document.querySelectorAll('.nav-item');
+      const navIndicator = document.getElementById('navIndicator');
+      const sections = document.querySelectorAll('section[id]');
+      
+      // Show navbar after scroll
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          floatingNav.classList.add('active');
+        } else {
+          floatingNav.classList.remove('active');
+        }
+        
+        // Update active section
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        // Update nav items
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          if (item.getAttribute('href').substring(1) === current) {
+            item.classList.add('active');
+            
+            // Move indicator
+            const itemRect = item.getBoundingClientRect();
+            const navRect = floatingNav.getBoundingClientRect();
+            
+            navIndicator.style.width = `${itemRect.width}px`;
+            navIndicator.style.left = `${itemRect.left - navRect.left}px`;
+          }
+        });
+      });
+      
+      // Initialize indicator position
+      const activeItem = document.querySelector('.nav-item.active');
+      if (activeItem) {
+        const itemRect = activeItem.getBoundingClientRect();
+        const navRect = floatingNav.getBoundingClientRect();
+        
+        navIndicator.style.width = `${itemRect.width}px`;
+        navIndicator.style.left = `${itemRect.left - navRect.left}px`;
+      }
+      
+      // Click handler for nav items
+      navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          
+          if (targetSection) {
+            window.scrollTo({
+              top: targetSection.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
     }
 
     // Show fixed name + animate skill bars
@@ -864,6 +1345,8 @@
     document.addEventListener('DOMContentLoaded', function () {
       createBinaryBackground();
       createNetworkLines();
+      createNetworkNodes();
+      initFloatingNavbar();
       initReveal();
       initCardGlow();
       handleScrollAnimations();
