@@ -106,6 +106,13 @@
       z-index: 9998;
       transition: all 0.2s ease-out;
     }
+    
+    /* Disable custom cursor on touch devices */
+    @media (hover: none), (pointer: coarse) {
+      body { cursor: auto; }
+      .cursor-dot,
+      .cursor-outline { display: none; }
+    }
 
     /* Modern scrollbar */
     ::-webkit-scrollbar { width: 10px; }
@@ -118,21 +125,18 @@
        ========================= */
     #floating-nav {
       position: fixed;
-      top: 25px;
+      top: 18px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
       width: auto;
-      max-width: 90%;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    #floating-nav.active {
+      max-width: 95%;
       opacity: 1;
       visibility: visible;
-      transform: translateX(-50%) translateY(0);
+      transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  opacity 0.35s ease,
+                  box-shadow 0.35s ease;
+      will-change: transform;
     }
     
     .nav-pill {
@@ -199,12 +203,15 @@
     .nav-indicator {
       position: absolute;
       top: 6px;
+      left: 0;
       height: calc(100% - 12px);
       background: rgba(255, 255, 255, 0.2);
       border-radius: 9999px;
       z-index: 0;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  width 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      will-change: transform, width;
     }
     
     /* Mobile responsive navbar */
@@ -234,28 +241,23 @@
         margin-right: 6px;
         font-size: 0.9rem;
       }
+
+      .nav-hint{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.55);
+        pointer-events: none;
+        user-select: none;
+        z-index: 2;
+      }
+      .nav-hint.left{ left: 10px; }
+      .nav-hint.right{ right: 10px; }
+      .nav-hint.hidden{ display: none; }
     }
     
-    /* Fixed name */
-    #fixed-name{
-      position: fixed;
-      top: 22px; left: 22px;
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: white;
-      z-index: 1000;
-      opacity: 0;
-      transform: translateY(-30px);
-      transition: all .6s cubic-bezier(.4,0,.2,1);
-      letter-spacing: .6px;
-      background: rgba(0,0,0,.85);
-      padding: 10px 18px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 12px 38px rgba(0,0,0,.35);
-    }
-    #fixed-name.visible{ opacity:1; transform: translateY(0); }
+    /* Fixed name removed */
 
     /* Animated underline */
     .animated-underline{ position: relative; display:inline-block; }
@@ -362,7 +364,6 @@
     }
     @media (max-width: 768px){
       .project-grid{ grid-template-columns: 1fr; }
-      #fixed-name{ top: 16px; left: 16px; }
     }
 
     /* Existing binary background */
@@ -370,7 +371,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -3;
+      z-index: -5;
       opacity: .03;
       pointer-events: none;
       overflow: hidden;
@@ -390,13 +391,15 @@
       100%{ transform: translateY(100vh); opacity:0; }
     }
 
-    /* Network lines */
+    /* Network lines (legacy) */
     .network-line{
       position: fixed;
       top:0; left:0;
       width:100%; height:100%;
-      z-index:-2;
+      z-index:-3;
       pointer-events:none;
+      opacity: 0.12;
+      display: none;
     }
     .line{
       position:absolute;
@@ -409,15 +412,17 @@
       100%{ transform: translateX(100vw); }
     }
 
-    /* Network nodes animation */
+    /* Network nodes animation (legacy) */
     .network-nodes {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
+      opacity: 0.15;
+      display: none;
     }
     
     .node {
@@ -478,7 +483,7 @@
     .liquid-wrap{
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -4;
       pointer-events: none;
       overflow: hidden;
     }
@@ -507,7 +512,86 @@
                   radial-gradient(800px circle at 80% 30%, rgba(255,255,255,.07), transparent 60%),
                   radial-gradient(900px circle at 50% 90%, rgba(255,255,255,.06), transparent 55%);
       animation: shine 3.5s ease-in-out infinite;
-      opacity: .35;
+      opacity: .22;
+    }
+
+    /* Blur orbs animation (smooth, GPU-friendly) */
+    .blur-orbs{
+      position: fixed;
+      inset: -10%;
+      z-index: -3;
+      pointer-events: none;
+      filter: blur(40px);
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+    .blur-orb{
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(255,255,255,0.05) 60%, transparent 70%);
+      transform: translate3d(0,0,0);
+      animation: orb-float 18s ease-in-out infinite;
+    }
+    .blur-orb.o1{ left: -80px; top: 10%; animation-duration: 20s; }
+    .blur-orb.o2{ right: -120px; top: 30%; animation-duration: 24s; opacity: 0.7; }
+    .blur-orb.o3{ left: 20%; bottom: -140px; animation-duration: 28s; opacity: 0.6; }
+    @keyframes orb-float{
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      50%  { transform: translate3d(40px, -30px, 0) scale(1.05); }
+      100% { transform: translate3d(0,0,0) scale(1); }
+    }
+
+    @media (max-width: 640px){
+      .blur-orbs{ opacity: 0.4; filter: blur(34px); }
+      .blur-orb{ width: 300px; height: 300px; }
+    }
+    /* Parallax background (subtle, mobile-safe) */
+    .parallax-bg{
+      position: fixed;
+      inset: -10%;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 600px at 15% 20%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(800px 500px at 85% 30%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(700px 600px at 50% 85%, rgba(255,255,255,0.05), transparent 60%),
+        linear-gradient(180deg, rgba(10,10,10,0.92), rgba(0,0,0,0.98));
+      transform: translate3d(0, 0, 0);
+      transition: transform 0.12s ease-out;
+      opacity: 0.65;
+      animation: bg-drift 18s ease-in-out infinite;
+    }
+    @keyframes bg-drift{
+      0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%; }
+      50%  { background-position: 6% 8%, 94% 6%, 48% 94%, 0% 0%; }
+      100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%; }
+    }
+
+    /* Mobile balance */
+    @media (max-width: 640px) {
+      .parallax-bg{ opacity: 0.5; }
+      .binary-bg{ opacity: 0.02; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .parallax-bg{ animation: none; }
+    }
+
+    /* Hero title sizing on small screens */
+    .hero-title{
+      line-height: 1.05;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 640px){
+      .hero-title{ font-size: 2.4rem; }
+      .terminal-text{
+        font-size: 1rem;
+        white-space: normal;
+        border-right: 0;
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -542,19 +626,30 @@
     </div>
   </div>
 
-  <!-- Network animation -->
-  <div class="network-nodes" id="networkNodes"></div>
+  <!-- Parallax Background -->
+  <div class="parallax-bg" id="parallaxBg"></div>
+
+  <!-- Blur Orbs Background -->
+  <div class="blur-orbs" aria-hidden="true">
+    <div class="blur-orb o1"></div>
+    <div class="blur-orb o2"></div>
+    <div class="blur-orb o3"></div>
+  </div>
 
   <!-- Background animations -->
   <div class="binary-bg" id="binaryBg"></div>
-  <div class="network-line" id="networkLine"></div>
 
   <!-- Pill-shaped Floating Navbar -->
   <div id="floating-nav">
     <div class="nav-pill">
+      <span class="nav-hint left">&lt;</span>
+      <span class="nav-hint right">&gt;</span>
       <div class="nav-indicator" id="navIndicator"></div>
       <a href="#home" class="nav-item active" data-section="home">
         <i class="fas fa-home"></i> Home
+      </a>
+      <a href="#about" class="nav-item" data-section="about">
+        <i class="fas fa-user"></i> About
       </a>
       <a href="#skills" class="nav-item" data-section="skills">
         <i class="fas fa-code"></i> Skills
@@ -571,13 +666,10 @@
     </div>
   </div>
 
-  <!-- Fixed name -->
-  <div id="fixed-name">MTH</div>
-
   <!-- Hero Section -->
   <section id="home" class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
     <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
+      <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
         <span class="glitch-text" data-text="M. TALHA HUSSAIN">M. TALHA HUSSAIN</span>
       </h1>
 
@@ -607,6 +699,37 @@
 
     <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
       <i class="fas fa-chevron-down text-white/60 text-xl"></i>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
+        <span class="animated-underline">About Me</span>
+      </h2>
+      <p class="text-gray-400 text-lg mb-10 max-w-3xl reveal">
+        I am an IT & Network Engineer focused on designing secure, scalable infrastructure and automation-driven systems.
+        My work spans enterprise networking, systems administration, and custom software that improves uptime and performance.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-3 text-white"><i class="fas fa-shield-alt"></i></div>
+          <h3 class="text-xl font-bold mb-2">Security First</h3>
+          <p class="text-gray-400">Hardened networks with monitoring, access control, and reliable backup strategies.</p>
+        </div>
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-3 text-white"><i class="fas fa-network-wired"></i></div>
+          <h3 class="text-xl font-bold mb-2">Enterprise Networking</h3>
+          <p class="text-gray-400">Designing multi‑site architectures with stable routing and efficient traffic flow.</p>
+        </div>
+        <div class="card p-6 rounded-2xl reveal">
+          <div class="text-2xl mb-3 text-white"><i class="fas fa-gears"></i></div>
+          <h3 class="text-xl font-bold mb-2">Automation</h3>
+          <p class="text-gray-400">Reducing manual work through scripts, dashboards, and proactive alerts.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1084,38 +1207,43 @@
   </footer>
 
   <script>
-    // Custom cursor
+    // Custom cursor (desktop only)
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
     
-    document.addEventListener('mousemove', (e) => {
-      cursorDot.style.left = `${e.clientX}px`;
-      cursorDot.style.top = `${e.clientY}px`;
-      
-      setTimeout(() => {
-        cursorOutline.style.left = `${e.clientX}px`;
-        cursorOutline.style.top = `${e.clientY}px`;
-      }, 50);
-    });
-    
-    // Interactive cursor effects
-    document.querySelectorAll('a, button, .card, .nav-item').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursorOutline.style.transform = 'scale(1.5)';
-        cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+    if (hasFinePointer && cursorDot && cursorOutline) {
+      document.addEventListener('mousemove', (e) => {
+        cursorDot.style.left = `${e.clientX}px`;
+        cursorDot.style.top = `${e.clientY}px`;
+        
+        setTimeout(() => {
+          cursorOutline.style.left = `${e.clientX}px`;
+          cursorOutline.style.top = `${e.clientY}px`;
+        }, 50);
       });
       
-      el.addEventListener('mouseleave', () => {
-        cursorOutline.style.transform = 'scale(1)';
-        cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+      // Interactive cursor effects
+      document.querySelectorAll('a, button, .card, .nav-item').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorOutline.style.transform = 'scale(1.5)';
+          cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          cursorOutline.style.transform = 'scale(1)';
+          cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        });
       });
-    });
+    }
 
     // Binary background
     function createBinaryBackground() {
       const binaryBg = document.getElementById('binaryBg');
       const digits = ['0', '1'];
-      for (let i = 0; i < 100; i++) {
+      const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      const total = isCoarsePointer ? 50 : 90;
+      for (let i = 0; i < total; i++) {
         const el = document.createElement('div');
         el.className = 'binary-digit';
         el.textContent = digits[Math.floor(Math.random() * digits.length)];
@@ -1128,112 +1256,41 @@
       }
     }
 
-    // Network lines
-    function createNetworkLines() {
-      const networkLine = document.getElementById('networkLine');
-      for (let i = 0; i < 20; i++) {
-        const line = document.createElement('div');
-        line.className = 'line';
-        line.style.top = `${Math.random() * 100}%`;
-        line.style.width = `${100 + Math.random() * 200}px`;
-        line.style.animationDuration = `${20 + Math.random() * 30}s`;
-        line.style.animationDelay = `${Math.random() * 10}s`;
-        networkLine.appendChild(line);
-      }
-    }
+    // Parallax background
+    function initParallaxBackground() {
+      const layer = document.getElementById('parallaxBg');
+      if (!layer) return;
 
-    // Network nodes animation
-    function createNetworkNodes() {
-      const container = document.getElementById('networkNodes');
-      const nodes = [];
-      const connections = [];
-      
-      // Create nodes
-      for (let i = 0; i < 30; i++) {
-        const node = document.createElement('div');
-        node.className = 'node';
-        node.style.left = `${Math.random() * 100}%`;
-        node.style.top = `${Math.random() * 100}%`;
-        node.style.animationDuration = `${3 + Math.random() * 5}s`;
-        node.style.animationDelay = `${Math.random() * 2}s`;
-        container.appendChild(node);
-        nodes.push(node);
-      }
-      
-      // Create connections
-      for (let i = 0; i < 15; i++) {
-        if (nodes.length > i * 2 + 1) {
-          const conn = document.createElement('div');
-          conn.className = 'connection';
-          container.appendChild(conn);
-          connections.push(conn);
-        }
-      }
-      
-      // Mouse move effect for network animation
-      document.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        
-        // Move nodes slightly towards cursor
-        nodes.forEach((node, i) => {
-          const nodeX = parseFloat(node.style.left) / 100;
-          const nodeY = parseFloat(node.style.top) / 100;
-          const distance = Math.sqrt(Math.pow(x - nodeX, 2) + Math.pow(y - nodeY, 2));
-          
-          if (distance < 0.3) {
-            const moveX = (x - nodeX) * 0.5;
-            const moveY = (y - nodeY) * 0.5;
-            
-            node.style.transform = `translate(${moveX * 20}px, ${moveY * 20}px)`;
-            node.style.background = 'rgba(255, 255, 255, 0.9)';
-            node.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8)';
-          } else {
-            node.style.transform = 'translate(0, 0)';
-            node.style.background = 'rgba(255, 255, 255, 0.6)';
-            node.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
-          }
-        });
-        
-        // Update connections
-        connections.forEach((conn, i) => {
-          const startNode = nodes[i * 2];
-          const endNode = nodes[i * 2 + 1];
-          
-          if (startNode && endNode) {
-            const startX = parseFloat(startNode.style.left) + 3;
-            const startY = parseFloat(startNode.style.top) + 3;
-            const endX = parseFloat(endNode.style.left) + 3;
-            const endY = parseFloat(endNode.style.top) + 3;
-            
-            const dx = endX - startX;
-            const dy = endY - startY;
-            const length = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-            
-            conn.style.width = `${length}px`;
-            conn.style.left = `${startX}%`;
-            conn.style.top = `${startY}%`;
-            conn.style.transform = `rotate(${angle}deg)`;
-            
-            // Pulsing effect based on mouse proximity
-            const connCenterX = (startX + endX) / 2;
-            const connCenterY = (startY + endY) / 2;
-            const mouseDist = Math.sqrt(
-              Math.pow(x * 100 - connCenterX, 2) + 
-              Math.pow(y * 100 - connCenterY, 2)
-            );
-            
-            if (mouseDist < 30) {
-              conn.style.opacity = '0.8';
-              conn.style.animation = 'pulse-border 1s ease-in-out infinite';
-            } else {
-              conn.style.opacity = '0.2';
-              conn.style.animation = 'none';
-            }
-          }
-        });
-      });
+      let current = 0;
+      let target = 0;
+      let boost = 0;
+      let lastY = window.scrollY || 0;
+      let lastT = performance.now();
+      const baseFactor = 0.02; // slow by default
+      const maxBoost = 0.08;   // extra speed while scrolling
+
+      const tick = () => {
+        current += (target - current) * 0.12; // smooth easing
+        layer.style.transform = `translate3d(0, ${current.toFixed(2)}px, 0)`;
+        requestAnimationFrame(tick);
+      };
+
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+        const t = performance.now();
+        const dt = Math.max(16, t - lastT);
+        const dy = Math.abs(y - lastY);
+        const speed = dy / dt; // px per ms
+        const targetBoost = Math.min(maxBoost, speed * 0.6);
+        boost += (targetBoost - boost) * 0.25;
+        target = y * (baseFactor + boost);
+        lastY = y;
+        lastT = t;
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+      requestAnimationFrame(tick);
     }
 
     // Floating Navbar
@@ -1242,15 +1299,42 @@
       const navItems = document.querySelectorAll('.nav-item');
       const navIndicator = document.getElementById('navIndicator');
       const sections = document.querySelectorAll('section[id]');
+      const navPill = document.querySelector('.nav-pill');
+      const hintLeft = document.querySelector('.nav-hint.left');
+      const hintRight = document.querySelector('.nav-hint.right');
+      let indicatorTicking = false;
+      let pendingActive = null;
       
-      // Show navbar after scroll
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          floatingNav.classList.add('active');
-        } else {
-          floatingNav.classList.remove('active');
+      const updateScrollHints = () => {
+        if (!navPill || !hintLeft || !hintRight) return;
+        const canScroll = navPill.scrollWidth > navPill.clientWidth + 2;
+        if (!canScroll) {
+          hintLeft.classList.add('hidden');
+          hintRight.classList.add('hidden');
+          return;
         }
-        
+        const atStart = navPill.scrollLeft <= 2;
+        const atEnd = navPill.scrollLeft + navPill.clientWidth >= navPill.scrollWidth - 2;
+        hintLeft.classList.toggle('hidden', atStart);
+        hintRight.classList.toggle('hidden', atEnd);
+      };
+
+      if (navPill) {
+        navPill.addEventListener('scroll', updateScrollHints, { passive: true });
+        window.addEventListener('resize', updateScrollHints);
+        setTimeout(updateScrollHints, 200);
+      }
+
+      const moveIndicator = (item) => {
+        if (!item || !navIndicator || !floatingNav) return;
+        const itemRect = item.getBoundingClientRect();
+        const navRect = floatingNav.getBoundingClientRect();
+        const x = itemRect.left - navRect.left;
+        navIndicator.style.width = `${itemRect.width}px`;
+        navIndicator.style.transform = `translateX(${x}px)`;
+      };
+
+      window.addEventListener('scroll', () => {
         // Update active section
         let current = '';
         sections.forEach(section => {
@@ -1266,25 +1350,23 @@
           item.classList.remove('active');
           if (item.getAttribute('href').substring(1) === current) {
             item.classList.add('active');
-            
-            // Move indicator
-            const itemRect = item.getBoundingClientRect();
-            const navRect = floatingNav.getBoundingClientRect();
-            
-            navIndicator.style.width = `${itemRect.width}px`;
-            navIndicator.style.left = `${itemRect.left - navRect.left}px`;
+            pendingActive = item;
           }
         });
+
+        if (!indicatorTicking && pendingActive) {
+          indicatorTicking = true;
+          requestAnimationFrame(() => {
+            moveIndicator(pendingActive);
+            indicatorTicking = false;
+          });
+        }
       });
       
       // Initialize indicator position
       const activeItem = document.querySelector('.nav-item.active');
       if (activeItem) {
-        const itemRect = activeItem.getBoundingClientRect();
-        const navRect = floatingNav.getBoundingClientRect();
-        
-        navIndicator.style.width = `${itemRect.width}px`;
-        navIndicator.style.left = `${itemRect.left - navRect.left}px`;
+        moveIndicator(activeItem);
       }
       
       // Click handler for nav items
@@ -1305,13 +1387,8 @@
       });
     }
 
-    // Show fixed name + animate skill bars
+    // Animate skill bars
     function handleScrollAnimations() {
-      const fixedName = document.getElementById('fixed-name');
-
-      if (window.scrollY > 100) fixedName.classList.add('visible');
-      else fixedName.classList.remove('visible');
-
       document.querySelectorAll('.skill-level').forEach(bar => {
         const rect = bar.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.9) bar.classList.add('animated');
@@ -1344,8 +1421,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       createBinaryBackground();
-      createNetworkLines();
-      createNetworkNodes();
+      initParallaxBackground();
       initFloatingNavbar();
       initReveal();
       initCardGlow();
