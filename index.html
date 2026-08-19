@@ -91,20 +91,27 @@
       background-color: white;
       border-radius: 50%;
       position: fixed;
+      top: 0;
+      left: 0;
       pointer-events: none;
       z-index: 9999;
-      transition: transform 0.1s;
+      transform: translate3d(-50%, -50%, 0);
+      will-change: transform;
     }
-    
+
     .cursor-outline {
       width: 40px;
       height: 40px;
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
       position: fixed;
+      top: 0;
+      left: 0;
       pointer-events: none;
       z-index: 9998;
-      transition: all 0.2s ease-out;
+      transform: translate3d(-50%, -50%, 0) scale(1);
+      will-change: transform;
+      transition: border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
     }
     
     /* Disable custom cursor on touch devices */
@@ -141,9 +148,9 @@
     
     .nav-pill {
       display: flex;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 9999px;
       padding: 6px;
@@ -284,12 +291,13 @@
 
     /* Card */
     .card{
-      background: rgba(18,18,18,.65);
+      background: rgba(18,18,18,.72);
       border: 1px solid rgba(255,255,255,.06);
-      backdrop-filter: blur(14px);
-      transition: all .45s cubic-bezier(.4,0,.2,1);
+      backdrop-filter: blur(10px);
+      transition: transform .45s cubic-bezier(.4,0,.2,1), border-color .45s ease, box-shadow .45s ease;
       position: relative;
       overflow:hidden;
+      will-change: transform;
     }
     .card:hover{
       transform: translateY(-10px);
@@ -350,6 +358,7 @@
       opacity: 0;
       transform: translateY(18px);
       transition: opacity .8s ease, transform .8s ease;
+      will-change: opacity, transform;
     }
     .reveal.show{
       opacity: 1;
@@ -382,6 +391,7 @@
       font-family: 'Courier New', monospace;
       font-size: 14px;
       opacity:0;
+      will-change: transform, opacity;
       animation: binaryFall linear infinite;
     }
     @keyframes binaryFall{
@@ -490,7 +500,7 @@
     .liquid-layer{
       position:absolute;
       inset:-20%;
-      filter: blur(18px) saturate(1.2);
+      filter: blur(12px) saturate(1.2);
       opacity: .75;
     }
     .goo{
@@ -499,6 +509,8 @@
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.08) 55%, transparent 70%);
       mix-blend-mode: screen;
       filter: url(#gooey);
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
     .goo.g1{ width: 560px; height: 560px; left: -120px; top: 80px; animation: blob 18s ease-in-out infinite; }
@@ -521,7 +533,7 @@
       inset: -10%;
       z-index: -3;
       pointer-events: none;
-      filter: blur(40px);
+      filter: blur(30px);
       opacity: 0.55;
       mix-blend-mode: screen;
       will-change: transform;
@@ -545,8 +557,9 @@
     }
 
     @media (max-width: 640px){
-      .blur-orbs{ opacity: 0.4; filter: blur(34px); }
-      .blur-orb{ width: 300px; height: 300px; }
+      .blur-orbs{ opacity: 0.35; filter: blur(22px); }
+      .blur-orb{ width: 280px; height: 280px; }
+      .liquid-wrap{ display: none; }
     }
     /* Parallax background (subtle, mobile-safe) */
     .parallax-bg{
@@ -560,7 +573,7 @@
         radial-gradient(700px 600px at 50% 85%, rgba(255,255,255,0.05), transparent 60%),
         linear-gradient(180deg, rgba(10,10,10,0.92), rgba(0,0,0,0.98));
       transform: translate3d(0, 0, 0);
-      transition: transform 0.12s ease-out;
+      will-change: transform;
       opacity: 0.65;
       animation: bg-drift 18s ease-in-out infinite;
     }
@@ -577,6 +590,7 @@
     }
     @media (prefers-reduced-motion: reduce){
       .parallax-bg{ animation: none; }
+      .goo, .blur-orb, .binary-digit{ animation: none !important; }
     }
 
     /* Hero title sizing on small screens */
@@ -604,7 +618,7 @@
   <!-- Gooey SVG Filter (for liquid effect) -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="gooey">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
       <feColorMatrix in="blur" mode="matrix"
         values="
           1 0 0 0 0
@@ -1207,56 +1221,77 @@
   </footer>
 
   <script>
-    // Custom cursor (desktop only)
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-    
-    if (hasFinePointer && cursorDot && cursorOutline) {
-      document.addEventListener('mousemove', (e) => {
-        cursorDot.style.left = `${e.clientX}px`;
-        cursorDot.style.top = `${e.clientY}px`;
-        
-        setTimeout(() => {
-          cursorOutline.style.left = `${e.clientX}px`;
-          cursorOutline.style.top = `${e.clientY}px`;
-        }, 50);
-      });
-      
+    // ===== Custom cursor (desktop only) — smooth, rAF-driven, no layout thrashing =====
+    (function initCursor(){
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorOutline = document.querySelector('.cursor-outline');
+      const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+      if (!hasFinePointer || !cursorDot || !cursorOutline) return;
+
+      // Target = raw mouse position (updated instantly on mousemove)
+      // Rendered = smoothed/lerped position (updated every animation frame)
+      let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+      let dotX = targetX, dotY = targetY;
+      let outlineX = targetX, outlineY = targetY;
+      let rafId = null;
+
+      window.addEventListener('mousemove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+      }, { passive: true });
+
+      function loop(){
+        // Dot follows instantly-ish (fast lerp) — feels responsive, never "hangs"
+        dotX += (targetX - dotX) * 0.9;
+        dotY += (targetY - dotY) * 0.9;
+        // Outline trails smoothly
+        outlineX += (targetX - outlineX) * 0.22;
+        outlineY += (targetY - outlineY) * 0.22;
+
+        cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
+        cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+
+        rafId = requestAnimationFrame(loop);
+      }
+      rafId = requestAnimationFrame(loop);
+
       // Interactive cursor effects
       document.querySelectorAll('a, button, .card, .nav-item').forEach(el => {
         el.addEventListener('mouseenter', () => {
-          cursorOutline.style.transform = 'scale(1.5)';
+          cursorOutline.style.width = '56px';
+          cursorOutline.style.height = '56px';
           cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
         });
-        
         el.addEventListener('mouseleave', () => {
-          cursorOutline.style.transform = 'scale(1)';
+          cursorOutline.style.width = '40px';
+          cursorOutline.style.height = '40px';
           cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.3)';
         });
       });
-    }
+    })();
 
-    // Binary background
+    // Binary background (lightweight count, GPU-friendly transforms)
     function createBinaryBackground() {
       const binaryBg = document.getElementById('binaryBg');
       const digits = ['0', '1'];
       const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-      const total = isCoarsePointer ? 50 : 90;
+      const total = isCoarsePointer ? 35 : 60;
+      const frag = document.createDocumentFragment();
       for (let i = 0; i < total; i++) {
         const el = document.createElement('div');
         el.className = 'binary-digit';
         el.textContent = digits[Math.floor(Math.random() * digits.length)];
         el.style.left = `${Math.random() * 100}%`;
-        const duration = 10 + Math.random() * 20;
+        const duration = 12 + Math.random() * 20;
         const delay = Math.random() * 5;
         el.style.animationDuration = `${duration}s`;
         el.style.animationDelay = `${delay}s`;
-        binaryBg.appendChild(el);
+        frag.appendChild(el);
       }
+      binaryBg.appendChild(frag);
     }
 
-    // Parallax background
+    // Parallax background — smooth rAF-driven, capped speed
     function initParallaxBackground() {
       const layer = document.getElementById('parallaxBg');
       if (!layer) return;
@@ -1268,6 +1303,7 @@
       let lastT = performance.now();
       const baseFactor = 0.02; // slow by default
       const maxBoost = 0.08;   // extra speed while scrolling
+      let scrollTicking = false;
 
       const tick = () => {
         current += (target - current) * 0.12; // smooth easing
@@ -1275,7 +1311,7 @@
         requestAnimationFrame(tick);
       };
 
-      const onScroll = () => {
+      const computeScroll = () => {
         const y = window.scrollY || 0;
         const t = performance.now();
         const dt = Math.max(16, t - lastT);
@@ -1286,6 +1322,14 @@
         target = y * (baseFactor + boost);
         lastY = y;
         lastT = t;
+        scrollTicking = false;
+      };
+
+      const onScroll = () => {
+        if (!scrollTicking) {
+          scrollTicking = true;
+          requestAnimationFrame(computeScroll);
+        }
       };
 
       window.addEventListener('scroll', onScroll, { passive: true });
@@ -1303,6 +1347,7 @@
       const hintLeft = document.querySelector('.nav-hint.left');
       const hintRight = document.querySelector('.nav-hint.right');
       let indicatorTicking = false;
+      let navScrollTicking = false;
       let pendingActive = null;
       
       const updateScrollHints = () => {
@@ -1334,18 +1379,15 @@
         navIndicator.style.transform = `translateX(${x}px)`;
       };
 
-      window.addEventListener('scroll', () => {
-        // Update active section
+      const updateActiveSection = () => {
         let current = '';
         sections.forEach(section => {
           const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
           if (scrollY >= (sectionTop - 200)) {
             current = section.getAttribute('id');
           }
         });
-        
-        // Update nav items
+
         navItems.forEach(item => {
           item.classList.remove('active');
           if (item.getAttribute('href').substring(1) === current) {
@@ -1361,7 +1403,15 @@
             indicatorTicking = false;
           });
         }
-      });
+        navScrollTicking = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!navScrollTicking) {
+          navScrollTicking = true;
+          requestAnimationFrame(updateActiveSection);
+        }
+      }, { passive: true });
       
       // Initialize indicator position
       const activeItem = document.querySelector('.nav-item.active');
@@ -1388,10 +1438,16 @@
     }
 
     // Animate skill bars
+    let skillTicking = false;
     function handleScrollAnimations() {
-      document.querySelectorAll('.skill-level').forEach(bar => {
-        const rect = bar.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.9) bar.classList.add('animated');
+      if (skillTicking) return;
+      skillTicking = true;
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.skill-level:not(.animated)').forEach(bar => {
+          const rect = bar.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.9) bar.classList.add('animated');
+        });
+        skillTicking = false;
       });
     }
 
@@ -1406,16 +1462,27 @@
       items.forEach(i => io.observe(i));
     }
 
-    // Card glow follows mouse
+    // Card glow follows mouse (throttled with rAF, GPU-composited)
     function initCardGlow() {
+      let glowTicking = false;
+      let pendingCard = null, pendingX = 0, pendingY = 0;
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
           const r = card.getBoundingClientRect();
-          const x = ((e.clientX - r.left) / r.width) * 100;
-          const y = ((e.clientY - r.top) / r.height) * 100;
-          card.style.setProperty('--mx', x + '%');
-          card.style.setProperty('--my', y + '%');
-        });
+          pendingCard = card;
+          pendingX = ((e.clientX - r.left) / r.width) * 100;
+          pendingY = ((e.clientY - r.top) / r.height) * 100;
+          if (!glowTicking) {
+            glowTicking = true;
+            requestAnimationFrame(() => {
+              if (pendingCard) {
+                pendingCard.style.setProperty('--mx', pendingX + '%');
+                pendingCard.style.setProperty('--my', pendingY + '%');
+              }
+              glowTicking = false;
+            });
+          }
+        }, { passive: true });
       });
     }
 
@@ -1427,7 +1494,7 @@
       initCardGlow();
       handleScrollAnimations();
 
-      window.addEventListener('scroll', handleScrollAnimations);
+      window.addEventListener('scroll', handleScrollAnimations, { passive: true });
 
       setTimeout(() => {
         document.querySelectorAll('.skill-level').forEach(bar => {
