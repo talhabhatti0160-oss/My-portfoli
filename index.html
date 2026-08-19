@@ -10,126 +10,127 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          animation: {
-            'pulse-slow': 'pulse 3s ease-in-out infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'gradient': 'gradient 10s ease infinite',
-            'typing': 'typing 3.5s steps(40, end)',
-            'blink': 'blink 1s step-end infinite',
-            'blob': 'blob 18s ease-in-out infinite',
-            'blob2': 'blob2 22s ease-in-out infinite',
-            'blob3': 'blob3 26s ease-in-out infinite',
-            'shine': 'shine 3.5s ease-in-out infinite',
-            'pulse-border': 'pulse-border 2s ease-in-out infinite',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-18px)' },
-            },
-            gradient: {
-              '0%, 100%': { 'background-position': '0% 50%' },
-              '50%': { 'background-position': '100% 50%' },
-            },
-            typing: {
-              'from': { width: '0' },
-              'to': { width: '100%' },
-            },
-            blink: {
-              'from, to': { 'border-color': 'transparent' },
-              '50%': { 'border-color': 'white' },
-            },
-            blob: {
-              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
-              '30%': { transform: 'translate3d(60px,-40px,0) scale(1.08)' },
-              '60%': { transform: 'translate3d(-40px,50px,0) scale(0.98)' },
-            },
-            blob2: {
-              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
-              '30%': { transform: 'translate3d(-70px,30px,0) scale(1.06)' },
-              '60%': { transform: 'translate3d(45px,-55px,0) scale(0.96)' },
-            },
-            blob3: {
-              '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
-              '30%': { transform: 'translate3d(40px,60px,0) scale(1.05)' },
-              '60%': { transform: 'translate3d(-60px,-35px,0) scale(0.97)' },
-            },
-            shine: {
-              '0%, 100%': { opacity: .25 },
-              '50%': { opacity: .55 },
-            },
-            'pulse-border': {
-              '0%, 100%': { opacity: 1 },
-              '50%': { opacity: 0.5 },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    :root{
+      --bg: #070b0f;
+      --bg-grid: #0b1117;
+      --surface: rgba(16,22,29,.72);
+      --surface-solid: #10161d;
+      --border: rgba(0,230,164,.16);
+      --border-strong: rgba(0,230,164,.38);
+      --accent: #00e6a4;
+      --accent-dim: #068a63;
+      --accent2: #3aa0ff;
+      --warn: #ffb347;
+      --text: #e8eef3;
+      --text-dim: #83919e;
+      --text-faint: #52606c;
+      --mono: 'IBM Plex Mono', 'Courier New', monospace;
+      --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       scroll-behavior: smooth;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-family: var(--sans);
       overflow-x: hidden;
-      background: #000;
-      color: #fff;
+      background: var(--bg);
+      color: var(--text);
       cursor: none;
     }
 
-    /* Modern cursor */
+    /* Crosshair cursor — fits the network/diagnostics theme */
     .cursor-dot {
-      width: 8px;
-      height: 8px;
-      background-color: white;
+      width: 5px;
+      height: 5px;
+      background-color: var(--accent);
       border-radius: 50%;
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       pointer-events: none;
       z-index: 9999;
       transform: translate3d(-50%, -50%, 0);
       will-change: transform;
+      box-shadow: 0 0 8px rgba(0,230,164,.9);
     }
-
     .cursor-outline {
-      width: 40px;
-      height: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(0,230,164,.45);
+      border-radius: 4px;
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       pointer-events: none;
       z-index: 9998;
-      transform: translate3d(-50%, -50%, 0) scale(1);
+      transform: translate3d(-50%, -50%, 0) rotate(45deg);
       will-change: transform;
-      transition: border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
+      transition: border-color .2s ease, width .2s ease, height .2s ease;
     }
-    
-    /* Disable custom cursor on touch devices */
+    .cursor-outline::before,
+    .cursor-outline::after{
+      content:'';
+      position:absolute;
+      background: rgba(0,230,164,.55);
+    }
+    .cursor-outline::before{ left:50%; top:-6px; width:1px; height:6px; transform:translateX(-50%); }
+    .cursor-outline::after{ top:50%; left:-6px; width:6px; height:1px; transform:translateY(-50%); }
+
     @media (hover: none), (pointer: coarse) {
       body { cursor: auto; }
-      .cursor-dot,
-      .cursor-outline { display: none; }
+      .cursor-dot, .cursor-outline { display: none; }
     }
 
-    /* Modern scrollbar */
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #111; }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
-    ::-webkit-scrollbar-thumb:hover { background: #444; }
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: var(--bg-grid); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-    /* =========================
-       PILL-SHAPED FLOATING NAVBAR
-       ========================= */
+    h1,h2,h3,h4{ font-family: var(--mono); letter-spacing: -0.01em; }
+
+    /* Grid + scanline backdrop — the technical/network canvas */
+    .grid-bg{
+      position: fixed;
+      inset: 0;
+      z-index: -6;
+      pointer-events: none;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(0,230,164,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,230,164,.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 100%);
+    }
+    .scan-sweep{
+      position: fixed;
+      left: 0; right: 0;
+      height: 140px;
+      z-index: -5;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(0,230,164,.05), transparent);
+      animation: sweepDown 9s linear infinite;
+    }
+    @keyframes sweepDown{
+      0%{ transform: translateY(-140px); }
+      100%{ transform: translateY(100vh); }
+    }
+    .vignette{
+      position: fixed; inset: 0; z-index: -4; pointer-events: none;
+      background: radial-gradient(1100px 700px at 50% -10%, rgba(0,230,164,.07), transparent 60%),
+                  radial-gradient(900px 600px at 100% 100%, rgba(58,160,255,.05), transparent 60%),
+                  linear-gradient(180deg, transparent, rgba(0,0,0,.5) 90%);
+    }
+    @media (max-width: 640px){
+      .grid-bg{ background-size: 40px 40px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .scan-sweep{ animation: none; display:none; }
+    }
+
+    /* Navbar */
     #floating-nav {
       position: fixed;
       top: 18px;
@@ -138,744 +139,546 @@
       z-index: 1000;
       width: auto;
       max-width: 95%;
-      opacity: 1;
-      visibility: visible;
-      transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
-                  opacity 0.35s ease,
-                  box-shadow 0.35s ease;
+      transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
       will-change: transform;
     }
-    
     .nav-pill {
       display: flex;
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(7,11,15,.78);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 9999px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
       padding: 6px;
-      box-shadow: 
-        0 10px 35px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-        0 0 30px rgba(255, 255, 255, 0.05) inset;
+      box-shadow: 0 10px 35px rgba(0,0,0,.5), 0 0 24px rgba(0,230,164,.05) inset;
       position: relative;
       overflow: hidden;
     }
-    
     .nav-pill::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.4), 
-        transparent);
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: .5;
     }
-    
     .nav-item {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 22px;
-      border-radius: 9999px;
-      color: rgba(255, 255, 255, 0.8);
+      padding: 11px 20px;
+      border-radius: 6px;
+      color: var(--text-dim);
       text-decoration: none;
+      font-family: var(--mono);
       font-weight: 500;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
+      font-size: 0.82rem;
+      text-transform: lowercase;
+      letter-spacing: .02em;
+      transition: color 0.3s ease;
       position: relative;
       z-index: 1;
       white-space: nowrap;
     }
-    
-    .nav-item:hover {
-      color: white;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    
-    .nav-item.active {
-      color: white;
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .nav-item i {
-      margin-right: 8px;
-      font-size: 1rem;
-    }
-    
+    .nav-item:hover{ color: var(--text); }
+    .nav-item.active{ color: var(--bg); }
+    .nav-item i { margin-right: 7px; font-size: .85rem; }
     .nav-indicator {
       position: absolute;
-      top: 6px;
-      left: 0;
+      top: 6px; left: 0;
       height: calc(100% - 12px);
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 9999px;
+      background: var(--accent);
+      border-radius: 6px;
       z-index: 0;
-      transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
-                  width 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 16px rgba(0,230,164,.5);
+      transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), width 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
       will-change: transform, width;
     }
-    
-    /* Mobile responsive navbar */
+
     @media (max-width: 768px) {
-      #floating-nav {
-        top: 15px;
-        max-width: 95%;
-      }
-      
-      .nav-pill {
-        padding: 4px;
-        overflow-x: auto;
-        justify-content: flex-start;
-        scrollbar-width: none;
-      }
-      
-      .nav-pill::-webkit-scrollbar {
-        display: none;
-      }
-      
-      .nav-item {
-        padding: 10px 16px;
-        font-size: 0.85rem;
-      }
-      
-      .nav-item i {
-        margin-right: 6px;
-        font-size: 0.9rem;
-      }
-
-      .nav-hint{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1.1rem;
-        color: rgba(255,255,255,0.55);
-        pointer-events: none;
-        user-select: none;
-        z-index: 2;
-      }
-      .nav-hint.left{ left: 10px; }
-      .nav-hint.right{ right: 10px; }
-      .nav-hint.hidden{ display: none; }
+      #floating-nav{ top: 15px; max-width: 95%; }
+      .nav-pill{ padding: 4px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-pill::-webkit-scrollbar{ display: none; }
+      .nav-item{ padding: 10px 14px; font-size: 0.74rem; }
+      .nav-hint{ position:absolute; top:50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-faint); pointer-events:none; z-index:2; }
+      .nav-hint.left{ left:8px; } .nav-hint.right{ right:8px; } .nav-hint.hidden{ display:none; }
     }
-    
-    /* Fixed name removed */
 
-    /* Animated underline */
-    .animated-underline{ position: relative; display:inline-block; }
-    .animated-underline::after{
-      content:'';
-      position:absolute;
-      width:0;
-      height:2px;
-      bottom:-3px; left:0;
-      background: linear-gradient(90deg, transparent, white, transparent);
-      transition: width .5s ease;
+    /* Eyebrow / section labels — terminal comment style */
+    .eyebrow{
+      font-family: var(--mono);
+      font-size: .8rem;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      letter-spacing: .02em;
     }
-    .animated-underline:hover::after{ width: 100%; }
-
-    /* Section title */
-    .section-title{ position:relative; padding-bottom: 15px; margin-bottom: 45px; }
-    .section-title::after{
+    .eyebrow::before{
       content:'';
-      position:absolute;
-      bottom:0; left:0;
-      width: 86px; height: 3px;
-      background: linear-gradient(90deg, #fff, #777);
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: dotPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes dotPulse{
+      0%,100%{ opacity: 1; transform: scale(1); }
+      50%{ opacity: .45; transform: scale(.75); }
+    }
+
+    .section-title{ position:relative; padding-bottom: 8px; margin-bottom: 14px; font-weight: 600; }
+    .section-head{ margin-bottom: 44px; }
+    .section-rule{
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--border-strong), transparent 60%);
+      position: relative;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .section-rule::after{
+      content:'';
+      position:absolute; top:0; left:-30%;
+      width: 30%; height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: traceLine 4.5s ease-in-out infinite;
+    }
+    @keyframes traceLine{
+      0%{ left: -30%; }
+      100%{ left: 110%; }
     }
 
     /* Card */
     .card{
-      background: rgba(18,18,18,.72);
-      border: 1px solid rgba(255,255,255,.06);
+      background: var(--surface);
+      border: 1px solid var(--border);
       backdrop-filter: blur(10px);
-      transition: transform .45s cubic-bezier(.4,0,.2,1), border-color .45s ease, box-shadow .45s ease;
+      transition: transform .4s cubic-bezier(.4,0,.2,1), border-color .4s ease, box-shadow .4s ease;
       position: relative;
-      overflow:hidden;
+      overflow: hidden;
       will-change: transform;
+      border-radius: 14px;
     }
-    .card:hover{
-      transform: translateY(-10px);
-      border-color: rgba(255,255,255,.18);
-      box-shadow: 0 22px 55px rgba(0,0,0,.55);
-    }
-    .card::before{
+    .card::before,.card::after{
       content:'';
       position:absolute;
-      inset:-2px;
-      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.14), transparent 40%);
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--accent);
+      opacity: 0;
+      transition: opacity .35s ease, width .35s ease, height .35s ease;
+      pointer-events: none;
+    }
+    .card::before{ top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .card::after{ bottom: 8px; right: 8px; border-left: none; border-top: none; }
+    .card:hover{
+      transform: translateY(-8px);
+      border-color: var(--border-strong);
+      box-shadow: 0 22px 55px rgba(0,0,0,.55), 0 0 0 1px rgba(0,230,164,.06);
+    }
+    .card:hover::before,.card:hover::after{ opacity: 1; width: 22px; height: 22px; }
+    .card-glow{
+      position:absolute; inset:-2px;
+      background: radial-gradient(560px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,164,.10), transparent 42%);
       opacity:0;
       transition: opacity .35s ease;
       pointer-events:none;
     }
-    .card:hover::before{ opacity:1; }
+    .card:hover .card-glow{ opacity:1; }
 
-    /* Skill bars */
-    .skill-bar{
-      height: 6px;
-      background: rgba(255,255,255,0.10);
-      border-radius: 3px;
-      overflow: hidden;
-      position: relative;
+    /* Segmented signal-style skill bars */
+    .signal-bar{
+      display:flex;
+      gap: 3px;
+      height: 16px;
     }
-    .skill-level{
-      height:100%;
-      background: linear-gradient(90deg, #fff, #aaa);
-      border-radius: 3px;
-      transform: translateX(-100%);
-      transition: transform 1.5s ease-out;
+    .signal-seg{
+      flex: 1;
+      background: rgba(255,255,255,.06);
+      border-radius: 2px;
+      transition: background .5s ease, box-shadow .5s ease;
+      transition-delay: calc(var(--i) * 18ms);
     }
-    .skill-level.animated{ transform: translateX(0); }
+    .signal-seg.lit{
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(0,230,164,.55);
+    }
+    .pct{ font-family: var(--mono); color: var(--accent); font-variant-numeric: tabular-nums; }
 
     /* Terminal typing */
     .terminal-text{
-      border-right: 3px solid;
+      border-right: 2px solid var(--accent);
       white-space: nowrap;
       overflow: hidden;
-      animation: typing 3.5s steps(40, end), blink 1s step-end infinite;
+      font-family: var(--mono);
+      animation: typing 3.5s steps(44, end), blink 1s step-end infinite;
     }
+    @keyframes typing{ from{ width:0; } to{ width:100%; } }
+    @keyframes blink{ from,to{ border-color: transparent; } 50%{ border-color: var(--accent); } }
 
-    /* Loading bar on hover */
-    .loading-bar{
-      position:absolute;
-      top:0; left:0;
-      width:0; height:2px;
-      background: linear-gradient(90deg, transparent, white, transparent);
-      animation: loading 2s ease-in-out infinite;
-    }
-    @keyframes loading{
-      0%{ left:-100%; width:100%; }
-      100%{ left:100%; width:10%; }
-    }
-
-    /* Reveal on scroll */
+    /* Reveal on scroll — a system-boot style sweep-in */
     .reveal{
       opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .8s ease, transform .8s ease;
+      transform: translateY(16px);
+      transition: opacity .7s ease, transform .7s ease;
       will-change: opacity, transform;
+      position: relative;
     }
-    .reveal.show{
-      opacity: 1;
-      transform: translateY(0);
+    .reveal::before{
+      content:'';
+      position:absolute;
+      left: 0; top: 0;
+      width: 2px; height: 0%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+    .reveal.show{ opacity: 1; transform: translateY(0); }
+    .reveal.show::before{ animation: growLine .6s ease forwards; }
+    @keyframes growLine{
+      0%{ height: 0%; opacity: 1; }
+      70%{ height: 100%; opacity: 1; }
+      100%{ height: 100%; opacity: 0; }
     }
 
-    /* Projects grid */
     .project-grid{
       display:grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 30px;
+      gap: 26px;
     }
-    @media (max-width: 768px){
-      .project-grid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px){ .project-grid{ grid-template-columns: 1fr; } }
 
-    /* Existing binary background */
-    .binary-bg{
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -5;
-      opacity: .03;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .binary-digit{
+    /* Hero network topology signature visual */
+    .hero-net{
       position:absolute;
-      color:#fff;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      opacity:0;
-      will-change: transform, opacity;
-      animation: binaryFall linear infinite;
-    }
-    @keyframes binaryFall{
-      0%{ transform: translateY(-100px); opacity:0; }
-      10%{ opacity:.8; }
-      90%{ opacity:.8; }
-      100%{ transform: translateY(100vh); opacity:0; }
-    }
-
-    /* Network lines (legacy) */
-    .network-line{
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      z-index:-3;
+      inset: 0;
+      z-index: 0;
       pointer-events:none;
-      opacity: 0.12;
-      display: none;
+      opacity: .55;
     }
-    .line{
-      position:absolute;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
-      height:1px;
-      animation: lineMove linear infinite;
+    .hero-net svg{ width:100%; height:100%; }
+    .net-line{
+      fill:none;
+      stroke: rgba(0,230,164,.35);
+      stroke-width: 1.2;
+      stroke-dasharray: 6 6;
+      animation: dashFlow 3.5s linear infinite;
     }
-    @keyframes lineMove{
-      0%{ transform: translateX(-100%); }
-      100%{ transform: translateX(100vw); }
+    .net-line.blue{ stroke: rgba(58,160,255,.3); }
+    @keyframes dashFlow{ to{ stroke-dashoffset: -120; } }
+    .net-node{ fill: var(--bg); stroke: var(--accent); stroke-width: 1.4; }
+    .net-node.blue{ stroke: var(--accent2); }
+    .net-pulse{ fill: var(--accent); animation: nodePulse 2.4s ease-in-out infinite; }
+    .net-pulse.blue{ fill: var(--accent2); }
+    @keyframes nodePulse{
+      0%,100%{ opacity:.35; r:3; }
+      50%{ opacity: 1; r: 5; }
     }
+    .net-label{
+      font-family: var(--mono);
+      font-size: 11px;
+      fill: var(--text-dim);
+      letter-spacing: .04em;
+    }
+    .packet{ fill: var(--accent); filter: drop-shadow(0 0 5px rgba(0,230,164,.9)); }
+    .packet.blue{ fill: var(--accent2); filter: drop-shadow(0 0 5px rgba(58,160,255,.9)); }
 
-    /* Network nodes animation (legacy) */
-    .network-nodes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      pointer-events: none;
-      opacity: 0.15;
-      display: none;
-    }
-    
-    .node {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      pointer-events: none;
-    }
-    
-    .connection {
-      position: absolute;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
-      transform-origin: left center;
-      pointer-events: none;
-    }
-
-    /* Glitch text */
-    .glitch-text{ position:relative; display:inline-block; }
-    .glitch-text::before,
-    .glitch-text::after{
-      content: attr(data-text);
-      position:absolute; top:0; left:0;
-      width:100%; height:100%;
-    }
-    .glitch-text::before{
-      left:2px;
-      text-shadow: -1px 0 rgba(255,0,0,.7);
-      animation: glitch-1 2s infinite linear alternate-reverse;
-    }
-    .glitch-text::after{
-      left:-2px;
-      text-shadow: 1px 0 rgba(0,255,255,.7);
-      animation: glitch-2 3s infinite linear alternate-reverse;
-    }
-    @keyframes glitch-1{
-      0% { clip-path: inset(40% 0 61% 0); }
-      10% { clip-path: inset(43% 0 1% 0); }
-      20% { clip-path: inset(54% 0 7% 0); }
-      50% { clip-path: inset(98% 0 1% 0); }
-      80% { clip-path: inset(92% 0 3% 0); }
-      100% { clip-path: inset(60% 0 40% 0); }
-    }
-    @keyframes glitch-2{
-      0% { clip-path: inset(25% 0 58% 0); }
-      20% { clip-path: inset(48% 0 13% 0); }
-      45% { clip-path: inset(92% 0 3% 0); }
-      70% { clip-path: inset(40% 0 61% 0); }
-      100% { clip-path: inset(98% 0 1% 0); }
-    }
-
-    /* =========================
-       Liquid / Gooey Background
-       ========================= */
-    .liquid-wrap{
-      position: fixed;
-      inset: 0;
-      z-index: -4;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .liquid-layer{
-      position:absolute;
-      inset:-20%;
-      filter: blur(12px) saturate(1.2);
-      opacity: .75;
-    }
-    .goo{
-      position:absolute;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.08) 55%, transparent 70%);
-      mix-blend-mode: screen;
-      filter: url(#gooey);
-      will-change: transform;
-      transform: translate3d(0,0,0);
-    }
-
-    .goo.g1{ width: 560px; height: 560px; left: -120px; top: 80px; animation: blob 18s ease-in-out infinite; }
-    .goo.g2{ width: 620px; height: 620px; right: -160px; top: 160px; animation: blob2 22s ease-in-out infinite; opacity: .65; }
-    .goo.g3{ width: 520px; height: 520px; left: 22%; bottom: -180px; animation: blob3 26s ease-in-out infinite; opacity: .6; }
-
-    .liquid-shine{
-      position:absolute;
-      inset: 0;
-      background: radial-gradient(900px circle at 20% 20%, rgba(255,255,255,.08), transparent 55%),
-                  radial-gradient(800px circle at 80% 30%, rgba(255,255,255,.07), transparent 60%),
-                  radial-gradient(900px circle at 50% 90%, rgba(255,255,255,.06), transparent 55%);
-      animation: shine 3.5s ease-in-out infinite;
-      opacity: .22;
-    }
-
-    /* Blur orbs animation (smooth, GPU-friendly) */
-    .blur-orbs{
-      position: fixed;
-      inset: -10%;
-      z-index: -3;
-      pointer-events: none;
-      filter: blur(30px);
-      opacity: 0.55;
-      mix-blend-mode: screen;
-      will-change: transform;
-    }
-    .blur-orb{
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(255,255,255,0.05) 60%, transparent 70%);
-      transform: translate3d(0,0,0);
-      animation: orb-float 18s ease-in-out infinite;
-    }
-    .blur-orb.o1{ left: -80px; top: 10%; animation-duration: 20s; }
-    .blur-orb.o2{ right: -120px; top: 30%; animation-duration: 24s; opacity: 0.7; }
-    .blur-orb.o3{ left: 20%; bottom: -140px; animation-duration: 28s; opacity: 0.6; }
-    @keyframes orb-float{
-      0%   { transform: translate3d(0,0,0) scale(1); }
-      50%  { transform: translate3d(40px, -30px, 0) scale(1.05); }
-      100% { transform: translate3d(0,0,0) scale(1); }
-    }
-
-    @media (max-width: 640px){
-      .blur-orbs{ opacity: 0.35; filter: blur(22px); }
-      .blur-orb{ width: 280px; height: 280px; }
-      .liquid-wrap{ display: none; }
-    }
-    /* Parallax background (subtle, mobile-safe) */
-    .parallax-bg{
-      position: fixed;
-      inset: -10%;
-      z-index: -2;
-      pointer-events: none;
-      background:
-        radial-gradient(900px 600px at 15% 20%, rgba(255,255,255,0.08), transparent 60%),
-        radial-gradient(800px 500px at 85% 30%, rgba(255,255,255,0.06), transparent 60%),
-        radial-gradient(700px 600px at 50% 85%, rgba(255,255,255,0.05), transparent 60%),
-        linear-gradient(180deg, rgba(10,10,10,0.92), rgba(0,0,0,0.98));
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-      opacity: 0.65;
-      animation: bg-drift 18s ease-in-out infinite;
-    }
-    @keyframes bg-drift{
-      0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%; }
-      50%  { background-position: 6% 8%, 94% 6%, 48% 94%, 0% 0%; }
-      100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%; }
-    }
-
-    /* Mobile balance */
-    @media (max-width: 640px) {
-      .parallax-bg{ opacity: 0.5; }
-      .binary-bg{ opacity: 0.02; }
+    @media (max-width: 768px){
+      .hero-net{ opacity: .3; }
     }
     @media (prefers-reduced-motion: reduce){
-      .parallax-bg{ animation: none; }
-      .goo, .blur-orb, .binary-digit{ animation: none !important; }
+      .net-line{ animation: none; }
+      .net-pulse{ animation: none; }
     }
 
-    /* Hero title sizing on small screens */
-    .hero-title{
-      line-height: 1.05;
-      letter-spacing: 0.5px;
+    .hero-title{ line-height: 1.02; letter-spacing: -0.01em; font-weight: 700; }
+    .hero-title .accent-glow{
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(0,230,164,.35);
     }
+
     @media (max-width: 640px){
-      .hero-title{ font-size: 2.4rem; }
-      .terminal-text{
-        font-size: 1rem;
-        white-space: normal;
-        border-right: 0;
-        animation: none;
-      }
+      .hero-title{ font-size: 2.35rem; }
+      .terminal-text{ font-size: .95rem; white-space: normal; border-right: 0; animation: none; }
     }
+
+    .btn-primary{
+      background: var(--accent);
+      color: #041e14;
+    }
+    .btn-primary:hover{ background: #1fffc0; }
+    .btn-outline{
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+    }
+    .btn-outline:hover{ background: rgba(0,230,164,.08); border-color: var(--accent); }
+
+    .tag-chip{
+      font-family: var(--mono);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,230,164,.05);
+      color: var(--text-dim);
+    }
+
+    .brace{ color: var(--accent); font-family: var(--mono); }
   </style>
 </head>
 
-<body class="bg-black text-white">
-  <!-- Custom cursor -->
+<body>
   <div class="cursor-dot"></div>
   <div class="cursor-outline"></div>
 
-  <!-- Gooey SVG Filter (for liquid effect) -->
-  <svg width="0" height="0" style="position:absolute">
-    <filter id="gooey">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-      <feColorMatrix in="blur" mode="matrix"
-        values="
-          1 0 0 0 0
-          0 1 0 0 0
-          0 0 1 0 0
-          0 0 0 22 -9"
-        result="goo" />
-      <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-    </filter>
-  </svg>
+  <div class="grid-bg"></div>
+  <div class="scan-sweep"></div>
+  <div class="vignette"></div>
 
-  <!-- Liquid Background -->
-  <div class="liquid-wrap">
-    <div class="liquid-layer">
-      <div class="goo g1"></div>
-      <div class="goo g2"></div>
-      <div class="goo g3"></div>
-      <div class="liquid-shine"></div>
-    </div>
-  </div>
-
-  <!-- Parallax Background -->
-  <div class="parallax-bg" id="parallaxBg"></div>
-
-  <!-- Blur Orbs Background -->
-  <div class="blur-orbs" aria-hidden="true">
-    <div class="blur-orb o1"></div>
-    <div class="blur-orb o2"></div>
-    <div class="blur-orb o3"></div>
-  </div>
-
-  <!-- Background animations -->
-  <div class="binary-bg" id="binaryBg"></div>
-
-  <!-- Pill-shaped Floating Navbar -->
   <div id="floating-nav">
     <div class="nav-pill">
       <span class="nav-hint left">&lt;</span>
       <span class="nav-hint right">&gt;</span>
       <div class="nav-indicator" id="navIndicator"></div>
-      <a href="#home" class="nav-item active" data-section="home">
-        <i class="fas fa-home"></i> Home
-      </a>
-      <a href="#about" class="nav-item" data-section="about">
-        <i class="fas fa-user"></i> About
-      </a>
-      <a href="#skills" class="nav-item" data-section="skills">
-        <i class="fas fa-code"></i> Skills
-      </a>
-      <a href="#experience" class="nav-item" data-section="experience">
-        <i class="fas fa-briefcase"></i> Experience
-      </a>
-      <a href="#projects" class="nav-item" data-section="projects">
-        <i class="fas fa-project-diagram"></i> Projects
-      </a>
-      <a href="#contact" class="nav-item" data-section="contact">
-        <i class="fas fa-envelope"></i> Contact
-      </a>
+      <a href="#home" class="nav-item active" data-section="home"><i class="fas fa-terminal"></i>home</a>
+      <a href="#about" class="nav-item" data-section="about"><i class="fas fa-user"></i>about</a>
+      <a href="#skills" class="nav-item" data-section="skills"><i class="fas fa-code"></i>skills</a>
+      <a href="#experience" class="nav-item" data-section="experience"><i class="fas fa-briefcase"></i>experience</a>
+      <a href="#projects" class="nav-item" data-section="projects"><i class="fas fa-diagram-project"></i>projects</a>
+      <a href="#contact" class="nav-item" data-section="contact"><i class="fas fa-envelope"></i>contact</a>
     </div>
   </div>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section id="home" class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+    <div class="hero-net" aria-hidden="true">
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <path id="p1" class="net-line" d="M600,300 L190,140" />
+        <path id="p2" class="net-line blue" d="M600,300 L1010,140" />
+        <path id="p3" class="net-line" d="M600,300 L190,460" />
+        <path id="p4" class="net-line blue" d="M600,300 L1010,460" />
+        <path id="p5" class="net-line" d="M600,300 L600,90" />
+        <path id="p6" class="net-line blue" d="M600,300 L600,510" />
+
+        <circle cx="190" cy="140" r="18" class="net-node"></circle>
+        <circle cx="1010" cy="140" r="18" class="net-node blue"></circle>
+        <circle cx="190" cy="460" r="18" class="net-node"></circle>
+        <circle cx="1010" cy="460" r="18" class="net-node blue"></circle>
+        <circle cx="600" cy="90" r="14" class="net-node"></circle>
+        <circle cx="600" cy="510" r="14" class="net-node blue"></circle>
+        <circle cx="600" cy="300" r="26" class="net-node" stroke-width="1.8"></circle>
+
+        <circle cx="190" cy="140" r="3" class="net-pulse"></circle>
+        <circle cx="1010" cy="140" r="3" class="net-pulse blue"></circle>
+        <circle cx="190" cy="460" r="3" class="net-pulse"></circle>
+        <circle cx="1010" cy="460" r="3" class="net-pulse blue"></circle>
+
+        <text x="190" y="105" text-anchor="middle" class="net-label">network</text>
+        <text x="1010" y="105" text-anchor="middle" class="net-label">security</text>
+        <text x="190" y="500" text-anchor="middle" class="net-label">software</text>
+        <text x="1010" y="500" text-anchor="middle" class="net-label">pbx / voice</text>
+        <text x="600" y="60" text-anchor="middle" class="net-label">cctv</text>
+        <text x="600" y="545" text-anchor="middle" class="net-label">automation</text>
+
+        <circle r="3.5" class="packet"><animateMotion dur="2.6s" repeatCount="indefinite" path="M600,300 L190,140" /></circle>
+        <circle r="3.5" class="packet blue"><animateMotion dur="3.1s" repeatCount="indefinite" path="M600,300 L1010,140" /></circle>
+        <circle r="3.5" class="packet"><animateMotion dur="2.9s" repeatCount="indefinite" path="M600,300 L190,460" /></circle>
+        <circle r="3.5" class="packet blue"><animateMotion dur="2.4s" repeatCount="indefinite" path="M600,300 L1010,460" /></circle>
+        <circle r="3" class="packet"><animateMotion dur="2.1s" repeatCount="indefinite" path="M600,300 L600,90" /></circle>
+        <circle r="3" class="packet blue"><animateMotion dur="2.3s" repeatCount="indefinite" path="M600,300 L600,510" /></circle>
+      </svg>
+    </div>
+
     <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
-      <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-        <span class="glitch-text" data-text="M. TALHA HUSSAIN">M. TALHA HUSSAIN</span>
+      <p class="eyebrow justify-center">system.identity — online</p>
+      <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl mb-6">
+        M. TALHA <span class="accent-glow">HUSSAIN</span>
       </h1>
 
       <div class="mb-8 inline-block">
         <p class="text-xl md:text-2xl text-gray-300 terminal-text">
-          <span class="text-white font-mono">$</span> IT Engineer | Network Architect | Software Developer
+          <span style="color:var(--accent)">$</span> IT Engineer | Network Architect | Software Developer
         </p>
       </div>
 
-      <p class="text-lg md:text-xl text-gray-400 leading-relaxed max-w-3xl mx-auto mb-12">
+      <p class="text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-12" style="color:var(--text-dim)">
         Designing and implementing enterprise-level IT infrastructure, network solutions, and custom software
         with focus on scalability, security, and automation for businesses across Pakistan.
       </p>
 
-      <div class="flex flex-wrap justify-center gap-6">
-        <a href="#skills" class="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-code mr-2"></i>Technical Skills
+      <div class="flex flex-wrap justify-center gap-5">
+        <a href="#skills" class="btn-primary px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105" style="font-family:var(--mono)">
+          <i class="fas fa-code mr-2"></i>technical_skills
         </a>
-        <a href="#projects" class="px-8 py-3 border border-white/30 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-project-diagram mr-2"></i>View Projects
+        <a href="#projects" class="btn-outline px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105" style="font-family:var(--mono)">
+          <i class="fas fa-diagram-project mr-2"></i>view_projects
         </a>
-        <a href="#contact" class="px-8 py-3 border border-white/30 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-envelope mr-2"></i>Contact Now
+        <a href="#contact" class="btn-outline px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105" style="font-family:var(--mono)">
+          <i class="fas fa-envelope mr-2"></i>contact_now
         </a>
       </div>
     </div>
 
-    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <i class="fas fa-chevron-down text-white/60 text-xl"></i>
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce" style="color:var(--accent)">
+      <i class="fas fa-chevron-down text-xl"></i>
     </div>
   </section>
 
-  <!-- About Section -->
+  <!-- About -->
   <section id="about" class="py-24 px-6">
     <div class="max-w-5xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
-        <span class="animated-underline">About Me</span>
-      </h2>
-      <p class="text-gray-400 text-lg mb-10 max-w-3xl reveal">
+      <div class="section-head reveal">
+        <p class="eyebrow">// about</p>
+        <h2 class="text-4xl md:text-5xl section-title">About Me</h2>
+        <div class="section-rule" style="max-width:120px"></div>
+      </div>
+      <p class="text-lg mb-10 max-w-3xl reveal" style="color:var(--text-dim)">
         I am an IT & Network Engineer focused on designing secure, scalable infrastructure and automation-driven systems.
         My work spans enterprise networking, systems administration, and custom software that improves uptime and performance.
       </p>
 
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-3 text-white"><i class="fas fa-shield-alt"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-3" style="color:var(--accent)"><i class="fas fa-shield-alt"></i></div>
           <h3 class="text-xl font-bold mb-2">Security First</h3>
-          <p class="text-gray-400">Hardened networks with monitoring, access control, and reliable backup strategies.</p>
+          <p style="color:var(--text-dim)">Hardened networks with monitoring, access control, and reliable backup strategies.</p>
         </div>
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-3 text-white"><i class="fas fa-network-wired"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-3" style="color:var(--accent)"><i class="fas fa-network-wired"></i></div>
           <h3 class="text-xl font-bold mb-2">Enterprise Networking</h3>
-          <p class="text-gray-400">Designing multi‑site architectures with stable routing and efficient traffic flow.</p>
+          <p style="color:var(--text-dim)">Designing multi‑site architectures with stable routing and efficient traffic flow.</p>
         </div>
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-3 text-white"><i class="fas fa-gears"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-3" style="color:var(--accent)"><i class="fas fa-gears"></i></div>
           <h3 class="text-xl font-bold mb-2">Automation</h3>
-          <p class="text-gray-400">Reducing manual work through scripts, dashboards, and proactive alerts.</p>
+          <p style="color:var(--text-dim)">Reducing manual work through scripts, dashboards, and proactive alerts.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills Section -->
+  <!-- Skills -->
   <section id="skills" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
-        <span class="animated-underline">Technical Expertise</span>
-      </h2>
-      <p class="text-gray-400 text-lg mb-16 max-w-3xl reveal">
+      <div class="section-head reveal">
+        <p class="eyebrow">// stack</p>
+        <h2 class="text-4xl md:text-5xl section-title">Technical Expertise</h2>
+        <div class="section-rule" style="max-width:120px"></div>
+      </div>
+      <p class="text-lg mb-16 max-w-3xl reveal" style="color:var(--text-dim)">
         Full-stack IT solutions specialist with expertise in network architecture, software development, enterprise systems administration, and PBX call center operations.
       </p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        <div class="card p-8 rounded-2xl reveal">
-          <div class="text-3xl mb-6 text-white">
-            <i class="fas fa-network-wired"></i>
-          </div>
+        <div class="card p-8 reveal">
+          <div class="card-glow"></div>
+          <div class="text-3xl mb-6" style="color:var(--accent)"><i class="fas fa-network-wired"></i></div>
           <h3 class="text-2xl font-bold mb-4">Network Architecture</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>MikroTik,Cisco & Unifi Enterprise Solutions</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Sophos Firewall & Advanced Security</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>P2P & VPN Network Design & Implementation</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise Network Monitoring & Automation</span></li>
+          <ul class="space-y-3" style="color:#c7d0d8">
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>MikroTik,Cisco & Unifi Enterprise Solutions</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Sophos Firewall & Advanced Security</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>P2P & VPN Network Design & Implementation</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Enterprise Network Monitoring & Automation</span></li>
           </ul>
         </div>
 
-        <div class="card p-8 rounded-2xl reveal">
-          <div class="text-3xl mb-6 text-white">
-            <i class="fas fa-code"></i>
-          </div>
+        <div class="card p-8 reveal">
+          <div class="card-glow"></div>
+          <div class="text-3xl mb-6" style="color:var(--accent)"><i class="fas fa-code"></i></div>
           <h3 class="text-2xl font-bold mb-4">Software Development</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise Web Applications & REST APIs</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Windows Desktop & Android Mobile Applications</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Database Design & Optimization (SQL)</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Business Process Automation & System Integration</span></li>
+          <ul class="space-y-3" style="color:#c7d0d8">
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Enterprise Web Applications & REST APIs</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Windows Desktop & Android Mobile Applications</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Database Design & Optimization (SQL)</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Business Process Automation & System Integration</span></li>
           </ul>
         </div>
 
-        <div class="card p-8 rounded-2xl reveal">
-          <div class="text-3xl mb-6 text-white">
-            <i class="fas fa-shield-alt"></i>
-          </div>
+        <div class="card p-8 reveal">
+          <div class="card-glow"></div>
+          <div class="text-3xl mb-6" style="color:var(--accent)"><i class="fas fa-shield-alt"></i></div>
           <h3 class="text-2xl font-bold mb-4">Security & Surveillance</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Enterprise IP CCTV Systems Design</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>AI-Powered Face Recognition Software</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Centralized Multi-Site Monitoring Solutions</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Hybrid Cloud & Local Storage Architectures</span></li>
+          <ul class="space-y-3" style="color:#c7d0d8">
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Enterprise IP CCTV Systems Design</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>AI-Powered Face Recognition Software</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Centralized Multi-Site Monitoring Solutions</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Hybrid Cloud & Local Storage Architectures</span></li>
           </ul>
         </div>
 
-        <!-- ✅ NEW SKILL CARD: PBX -->
-        <div class="card p-8 rounded-2xl reveal">
-          <div class="text-3xl mb-6 text-white">
-            <i class="fas fa-phone-alt"></i>
-          </div>
+        <div class="card p-8 reveal">
+          <div class="card-glow"></div>
+          <div class="text-3xl mb-6" style="color:var(--accent)"><i class="fas fa-phone-alt"></i></div>
           <h3 class="text-2xl font-bold mb-4">PBX Call Center Management</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>PBX System Configuration & Maintenance</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>IVR , Call Routing & Extensions</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Cloud Storege, Recording & Monitoring</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i><span>Failovers & Backup|Restore</span></li>
+          <ul class="space-y-3" style="color:#c7d0d8">
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>PBX System Configuration & Maintenance</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>IVR , Call Routing & Extensions</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Cloud Storege, Recording & Monitoring</span></li>
+            <li class="flex items-center"><i class="fas fa-check mr-3" style="color:var(--accent)"></i><span>Failovers & Backup|Restore</span></li>
           </ul>
         </div>
       </div>
 
-      <!-- Skill bars -->
+      <!-- Signal-style skill meters -->
       <div class="grid md:grid-cols-2 gap-12">
         <div class="reveal">
           <h3 class="text-2xl font-bold mb-8">Technical Proficiency</h3>
-          <div class="space-y-8">
+          <div class="space-y-7">
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Network Engineering & Architecture</span>
-                <span class="text-gray-400">95%</span>
+                <span class="pct" data-target="95">0%</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 95%"></div></div>
+              <div class="signal-bar" data-percent="95"></div>
             </div>
-
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Software Development</span>
-                <span class="text-gray-400">70%</span>
+                <span class="pct" data-target="70">0%</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 70%"></div></div>
+              <div class="signal-bar" data-percent="70"></div>
             </div>
-
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">IT System Administration</span>
-                <span class="text-gray-400">88%</span>
+                <span class="pct" data-target="88">0%</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 88%"></div></div>
+              <div class="signal-bar" data-percent="88"></div>
             </div>
-
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">PBX / Call Center Operations</span>
-                <span class="text-gray-400">80%</span>
+                <span class="pct" data-target="80">0%</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
+              <div class="signal-bar" data-percent="80"></div>
             </div>
           </div>
         </div>
 
         <div class="reveal">
           <h3 class="text-2xl font-bold mb-8">Project Experience</h3>
-          <div class="space-y-8">
+          <div class="space-y-7">
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Large-Scale Enterprise Networks</span>
-                <span class="text-gray-400">150+</span>
+                <span class="pct" data-suffix="+" data-target="150">0</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 100%"></div></div>
+              <div class="signal-bar" data-percent="100"></div>
             </div>
-
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">Custom Software Solutions</span>
-                <span class="text-gray-400">30+</span>
+                <span class="pct" data-suffix="+" data-target="30">0</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 85%"></div></div>
+              <div class="signal-bar" data-percent="85"></div>
             </div>
-
             <div>
               <div class="flex justify-between mb-2">
                 <span class="font-medium">CCTV & Security Systems</span>
-                <span class="text-gray-400">25+</span>
+                <span class="pct" data-suffix="+" data-target="25">0</span>
               </div>
-              <div class="skill-bar"><div class="skill-level" style="width: 80%"></div></div>
+              <div class="signal-bar" data-percent="80"></div>
             </div>
           </div>
         </div>
@@ -884,356 +687,371 @@
     </div>
   </section>
 
-  <!-- Experience Section -->
-  <section id="experience" class="py-24 px-6 bg-gradient-to-b from-black to-gray-900/20">
+  <!-- Experience -->
+  <section id="experience" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
-        <span class="animated-underline">Professional Experience</span>
-      </h2>
+      <div class="section-head reveal">
+        <p class="eyebrow">// experience</p>
+        <h2 class="text-4xl md:text-5xl section-title">Professional Experience</h2>
+        <div class="section-rule" style="max-width:120px"></div>
+      </div>
 
-      <div class="card p-8 md:p-12 rounded-2xl max-w-4xl mx-auto reveal">
+      <div class="card p-8 md:p-12 max-w-4xl mx-auto reveal">
+        <div class="card-glow"></div>
         <div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
-          <div class="bg-white/10 p-4 rounded-xl">
-            <i class="fas fa-building text-3xl text-white"></i>
+          <div class="p-4 rounded-xl" style="background:rgba(0,230,164,.08); border:1px solid var(--border)">
+            <i class="fas fa-building text-3xl" style="color:var(--accent)"></i>
           </div>
           <div>
             <h3 class="text-2xl md:text-3xl font-bold">Senior IT & Network Engineer</h3>
-            <p class="text-xl text-gray-300 mt-1">Kababjees · Full-time</p>
-            <p class="text-gray-400 mt-3">Managing IT infrastructure for 150+ locations all over Pakistan</p>
+            <p class="text-xl mt-1" style="color:#c7d0d8">Kababjees · Full-time</p>
+            <p class="mt-3" style="color:var(--text-dim)">Managing IT infrastructure for 150+ locations all over Pakistan</p>
           </div>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6">
-          <div class="p-6 bg-white/5 rounded-xl">
+          <div class="p-6 rounded-xl" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
             <h4 class="text-lg font-bold mb-3">Core Responsibilities</h4>
-            <ul class="space-y-2 text-gray-300">
-              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Design and deploy enterprise network infrastructure</span></li>
-              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Develop custom software solutions for business operations</span></li>
-              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Implement and manage enterprise CCTV surveillance systems</span></li>
-              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3 text-white"></i><span>Provide technical leadership and team training</span></li>
+            <ul class="space-y-2" style="color:#c7d0d8">
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3" style="color:var(--accent)"></i><span>Design and deploy enterprise network infrastructure</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3" style="color:var(--accent)"></i><span>Develop custom software solutions for business operations</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3" style="color:var(--accent)"></i><span>Implement and manage enterprise CCTV surveillance systems</span></li>
+              <li class="flex items-start"><i class="fas fa-circle text-xs mt-2 mr-3" style="color:var(--accent)"></i><span>Provide technical leadership and team training</span></li>
             </ul>
           </div>
 
-          <div class="p-6 bg-white/5 rounded-xl">
+          <div class="p-6 rounded-xl" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
             <h4 class="text-lg font-bold mb-3">Key Achievements</h4>
-            <ul class="space-y-2 text-gray-300">
-              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Reduced network downtime by 75% through automation</span></li>
-              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Designed city-wide CCTV monitoring systems for 10+ cities</span></li>
-              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Developed 15+ custom applications improving business efficiency</span></li>
-              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3 text-yellow-500"></i><span>Implemented secure VPN networks for 150+ locations</span></li>
+            <ul class="space-y-2" style="color:#c7d0d8">
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3" style="color:var(--warn)"></i><span>Reduced network downtime by 75% through automation</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3" style="color:var(--warn)"></i><span>Designed city-wide CCTV monitoring systems for 10+ cities</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3" style="color:var(--warn)"></i><span>Developed 15+ custom applications improving business efficiency</span></li>
+              <li class="flex items-start"><i class="fas fa-star text-xs mt-2 mr-3" style="color:var(--warn)"></i><span>Implemented secure VPN networks for 150+ locations</span></li>
             </ul>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
-  <!-- Projects Section -->
+  <!-- Projects -->
   <section id="projects" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title reveal">
-        <span class="animated-underline">Professional Projects</span>
-      </h2>
-      <p class="text-gray-400 text-lg mb-12 max-w-3xl reveal">
+      <div class="section-head reveal">
+        <p class="eyebrow">// projects</p>
+        <h2 class="text-4xl md:text-5xl section-title">Professional Projects</h2>
+        <div class="section-rule" style="max-width:120px"></div>
+      </div>
+      <p class="text-lg mb-12 max-w-3xl reveal" style="color:var(--text-dim)">
         A comprehensive portfolio of enterprise-level projects showcasing expertise in networking, software development, and security systems.
       </p>
 
       <div class="project-grid">
-        <!-- Original Projects -->
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-project-diagram"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-project-diagram"></i></div>
           <h3 class="text-xl font-bold mb-3">Unifi Complete Network Design & Remote Management</h3>
-          <p class="text-gray-400 mb-4">Complete enterprise network design with centralized remote management for multi-site deployment across Pakistan.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Complete enterprise network design with centralized remote management for multi-site deployment across Pakistan.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Unifi</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Enterprise Network</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Remote Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Unifi</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Enterprise Network</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Remote Management</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-city"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-city"></i></div>
           <h3 class="text-xl font-bold mb-3">CCTV P2P Network Design - City-to-City Monitoring</h3>
-          <p class="text-gray-400 mb-4">Enterprise CCTV monitoring system with P2P architecture for centralized control across multiple cities.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Enterprise CCTV monitoring system with P2P architecture for centralized control across multiple cities.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">CCTV</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">P2P Network</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Centralized Monitoring</span>
+            <span class="px-3 py-1 rounded-full tag-chip">CCTV</span>
+            <span class="px-3 py-1 rounded-full tag-chip">P2P Network</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Centralized Monitoring</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-database"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-database"></i></div>
           <h3 class="text-xl font-bold mb-3">Advanced Data Recovery System</h3>
-          <p class="text-gray-400 mb-4">Professional data recovery solutions for formatted drives, corrupted storage, and accidental deletions.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Professional data recovery solutions for formatted drives, corrupted storage, and accidental deletions.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Data Recovery</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Storage Solutions</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Backup Systems</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Data Recovery</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Storage Solutions</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Backup Systems</span>
           </div>
         </div>
 
-        <!-- NEW PROJECTS ADDED FROM YOUR LIST -->
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-comments"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-comments"></i></div>
           <h3 class="text-xl font-bold mb-3">Customer Feedback System (Website)</h3>
-          <p class="text-gray-400 mb-4">Complete feedback management system with customer portal, admin dashboard, email notifications and Microsoft Teams integration.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Complete feedback management system with customer portal, admin dashboard, email notifications and Microsoft Teams integration.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Web Application</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">API Integration</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Microsoft Teams</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Notifications</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Web Application</span>
+            <span class="px-3 py-1 rounded-full tag-chip">API Integration</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Microsoft Teams</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Notifications</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-laptop"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-laptop"></i></div>
           <h3 class="text-xl font-bold mb-3">Windows Software Inventory Management</h3>
-          <p class="text-gray-400 mb-4">Enterprise Windows-based software inventory tracking, asset management, and license compliance system.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Enterprise Windows-based software inventory tracking, asset management, and license compliance system.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows Software</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Inventory Management</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Asset Tracking</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">License Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Windows Software</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Inventory Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Asset Tracking</span>
+            <span class="px-3 py-1 rounded-full tag-chip">License Management</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket-alt"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-ticket-alt"></i></div>
           <h3 class="text-xl font-bold mb-3">Ticket Management & Demand Approval System</h3>
-          <p class="text-gray-400 mb-4">Complete IT ticketing system with workflow automation, demand tracking, and multi-level approval processes.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Complete IT ticketing system with workflow automation, demand tracking, and multi-level approval processes.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Ticket System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Workflow Automation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Approval Process</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">ITSM</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Ticket System</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Workflow Automation</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Approval Process</span>
+            <span class="px-3 py-1 rounded-full tag-chip">ITSM</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-tag"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-tag"></i></div>
           <h3 class="text-xl font-bold mb-3">Coupon Verification System</h3>
-          <p class="text-gray-400 mb-4">Automated coupon validation platform with real-time notifications via email & Microsoft Teams, fraud prevention.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Automated coupon validation platform with real-time notifications via email & Microsoft Teams, fraud prevention.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Coupon System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Validation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Email/Teams Integration</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Fraud Prevention</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Coupon System</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Real-time Validation</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Email/Teams Integration</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Fraud Prevention</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-check"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-user-check"></i></div>
           <h3 class="text-xl font-bold mb-3">Attendance Management System</h3>
-          <p class="text-gray-400 mb-4">GPS-based attendance system with photo capture, location verification, and biometric integration.</p>
+          <p class="mb-4" style="color:var(--text-dim)">GPS-based attendance system with photo capture, location verification, and biometric integration.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">GPS Location</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Photo Capture</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Biometric</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Attendance System</span>
+            <span class="px-3 py-1 rounded-full tag-chip">GPS Location</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Photo Capture</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Biometric</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-robot"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-robot"></i></div>
           <h3 class="text-xl font-bold mb-3">MikroTik Automation Controller</h3>
-          <p class="text-gray-400 mb-4">Windows-based automation system for centralized MikroTik device management and monitoring.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Windows-based automation system for centralized MikroTik device management and monitoring.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Automation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">MikroTik</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Windows Application</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Centralized Control</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Network Automation</span>
+            <span class="px-3 py-1 rounded-full tag-chip">MikroTik</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Windows Application</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Centralized Control</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-tv"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-tv"></i></div>
           <h3 class="text-xl font-bold mb-3">Digital Signage Software</h3>
-          <p class="text-gray-400 mb-4">Cross-platform digital signage solution for Android & Windows screens with centralized content management.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Cross-platform digital signage solution for Android & Windows screens with centralized content management.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Digital Signage</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Android/Windows</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Content Management</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Multi-screen</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Digital Signage</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Android/Windows</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Content Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Multi-screen</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-user-secret"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-user-secret"></i></div>
           <h3 class="text-xl font-bold mb-3">Face Recognition Software with CCTV Integration</h3>
-          <p class="text-gray-400 mb-4">AI-powered face recognition system integrated with CCTV networks for security monitoring and access control.</p>
+          <p class="mb-4" style="color:var(--text-dim)">AI-powered face recognition system integrated with CCTV networks for security monitoring and access control.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">AI Technology</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Face Recognition</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">CCTV Integration</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Security Systems</span>
+            <span class="px-3 py-1 rounded-full tag-chip">AI Technology</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Face Recognition</span>
+            <span class="px-3 py-1 rounded-full tag-chip">CCTV Integration</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Security Systems</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-bell"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-bell"></i></div>
           <h3 class="text-xl font-bold mb-3">Food Item Expiry Notifier Software</h3>
-          <p class="text-gray-400 mb-4">Inventory management system with automated expiry date tracking and notification system for food items.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Inventory management system with automated expiry date tracking and notification system for food items.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Inventory Management</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Expiry Tracking</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Automated Alerts</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Food Safety</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Inventory Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Expiry Tracking</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Automated Alerts</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Food Safety</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-fingerprint"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-fingerprint"></i></div>
           <h3 class="text-xl font-bold mb-3">ZK Tech Attendance Machine Integration</h3>
-          <p class="text-gray-400 mb-4">Integration with ZK biometric devices for attendance tracking, report generation, and payroll processing.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Integration with ZK biometric devices for attendance tracking, report generation, and payroll processing.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Biometric Integration</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">ZK Tech</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Attendance Reports</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Payroll Integration</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Biometric Integration</span>
+            <span class="px-3 py-1 rounded-full tag-chip">ZK Tech</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Attendance Reports</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Payroll Integration</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-chart-network"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-chart-network"></i></div>
           <h3 class="text-xl font-bold mb-3">Network Monitoring Software</h3>
-          <p class="text-gray-400 mb-4">Enterprise network monitoring solution with real-time alerts, performance tracking, and outage detection.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Enterprise network monitoring solution with real-time alerts, performance tracking, and outage detection.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Network Monitoring</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Real-time Alerts</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Performance Tracking</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Outage Detection</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Network Monitoring</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Real-time Alerts</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Performance Tracking</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Outage Detection</span>
           </div>
         </div>
 
-        <div class="card p-6 rounded-2xl reveal">
-          <div class="text-2xl mb-4 text-white"><i class="fas fa-ticket"></i></div>
+        <div class="card p-6 reveal">
+          <div class="card-glow"></div>
+          <div class="text-2xl mb-4" style="color:var(--accent)"><i class="fas fa-ticket"></i></div>
           <h3 class="text-xl font-bold mb-3">Customer Token Waiting System</h3>
-          <p class="text-gray-400 mb-4">Queue management system with token generation, wait time estimation, and customer notification features.</p>
+          <p class="mb-4" style="color:var(--text-dim)">Queue management system with token generation, wait time estimation, and customer notification features.</p>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Queue Management</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Token System</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Wait Time Estimation</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-sm">Customer Notifications</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Queue Management</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Token System</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Wait Time Estimation</span>
+            <span class="px-3 py-1 rounded-full tag-chip">Customer Notifications</span>
           </div>
         </div>
-
       </div>
-
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-24 px-6 bg-gradient-to-b from-gray-900/20 to-black">
+  <!-- Contact -->
+  <section id="contact" class="py-24 px-6">
     <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4 section-title inline-block reveal">
-        <span class="animated-underline">Get In Touch</span>
-      </h2>
-      <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto reveal">
+      <div class="section-head reveal inline-block">
+        <p class="eyebrow justify-center">// contact</p>
+        <h2 class="text-4xl md:text-5xl section-title">Get In Touch</h2>
+        <div class="section-rule" style="max-width:120px; margin:4px auto 0"></div>
+      </div>
+      <p class="text-lg mb-12 max-w-2xl mx-auto reveal" style="color:var(--text-dim)">
         Interested in enterprise IT solutions? Let's connect and discuss how I can help with your network, software, or security requirements.
       </p>
 
-      <div class="card p-8 rounded-2xl max-w-2xl mx-auto reveal">
+      <div class="card p-8 max-w-2xl mx-auto reveal">
+        <div class="card-glow"></div>
         <div class="grid md:grid-cols-2 gap-8 mb-8">
           <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank"
-             class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-            <div class="text-3xl mb-4 text-white group-hover:text-blue-500">
+             class="p-6 rounded-xl transition-all duration-300 group" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
+            <div class="text-3xl mb-4 group-hover:text-blue-400 transition-colors" style="color:var(--accent)">
               <i class="fab fa-linkedin"></i>
             </div>
             <h3 class="text-xl font-bold mb-2">LinkedIn</h3>
-            <p class="text-gray-400">Professional Network</p>
+            <p style="color:var(--text-dim)">Professional Network</p>
           </a>
 
           <a href="mailto:talhabhatti0160@gmail.com"
-             class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-            <div class="text-3xl mb-4 text-white group-hover:text-red-500">
+             class="p-6 rounded-xl transition-all duration-300 group" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
+            <div class="text-3xl mb-4 group-hover:text-red-400 transition-colors" style="color:var(--accent)">
               <i class="fas fa-envelope"></i>
             </div>
             <h3 class="text-xl font-bold mb-2">Email</h3>
-            <p class="text-gray-400">talhabhatti0160@gmail.com</p>
+            <p style="color:var(--text-dim)">talhabhatti0160@gmail.com</p>
           </a>
 
           <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank"
-             class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-            <div class="text-3xl mb-4 text-white group-hover:text-pink-500">
+             class="p-6 rounded-xl transition-all duration-300 group" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
+            <div class="text-3xl mb-4 group-hover:text-pink-400 transition-colors" style="color:var(--accent)">
               <i class="fab fa-instagram"></i>
             </div>
             <h3 class="text-xl font-bold mb-2">Instagram</h3>
-            <p class="text-gray-400">@talha_bhatti0000</p>
+            <p style="color:var(--text-dim)">@talha_bhatti0000</p>
           </a>
 
           <a href="https://www.threads.com/@talha_bhatti0000" target="_blank"
-             class="p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-            <div class="text-3xl mb-4 text-white group-hover:text-gray-300">
+             class="p-6 rounded-xl transition-all duration-300 group" style="background:rgba(255,255,255,.03); border:1px solid var(--border)">
+            <div class="text-3xl mb-4 group-hover:text-gray-300 transition-colors" style="color:var(--accent)">
               <i class="fas fa-comment"></i>
             </div>
             <h3 class="text-xl font-bold mb-2">Threads</h3>
-            <p class="text-gray-400">@talha_bhatti0000</p>
+            <p style="color:var(--text-dim)">@talha_bhatti0000</p>
           </a>
         </div>
 
-        <div class="pt-8 border-t border-white/10">
-          <p class="text-gray-400">Available for enterprise projects and technical consulting</p>
-          <p class="text-lg mt-2">Professional IT solutions for businesses across Pakistan</p>
+        <div class="pt-8" style="border-top:1px solid var(--border)">
+          <p style="color:var(--text-dim)">Available for enterprise projects and technical consulting</p>
+          <p class="text-lg mt-2">Professional IT solutions for businesses</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="py-8 px-6 border-t border-white/10">
+  <footer class="py-8 px-6" style="border-top:1px solid var(--border)">
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-6 md:mb-0">
           <div class="flex items-center">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-3">
-              <span class="text-black font-bold text-lg">MTH</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center mr-3" style="background:var(--accent); box-shadow:0 0 16px rgba(0,230,164,.4)">
+              <span class="font-bold text-lg" style="color:#041e14; font-family:var(--mono)">TH</span>
             </div>
             <div>
               <h3 class="text-xl font-bold">M. Talha Hussain</h3>
-              <p class="text-gray-400 text-sm">Senior IT & Network Engineer</p>
+              <p class="text-sm" style="color:var(--text-dim); font-family:var(--mono)">Senior IT & Network Engineer</p>
             </div>
           </div>
         </div>
 
         <div class="flex space-x-6">
-          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank" class="text-gray-400 hover:text-white transition">
+          <a href="https://www.linkedin.com/in/talha-bhatti-98b487342/" target="_blank" class="transition" style="color:var(--text-dim)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">
             <i class="fab fa-linkedin text-xl"></i>
           </a>
-          <a href="mailto:talhabhatti0160@gmail.com" class="text-gray-400 hover:text-white transition">
+          <a href="mailto:talhabhatti0160@gmail.com" class="transition" style="color:var(--text-dim)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">
             <i class="fas fa-envelope text-xl"></i>
           </a>
-          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank" class="text-gray-400 hover:text-white transition">
+          <a href="https://www.instagram.com/talha_bhatti0000/" target="_blank" class="transition" style="color:var(--text-dim)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">
             <i class="fab fa-instagram text-xl"></i>
           </a>
-          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank" class="text-gray-400 hover:text-white transition">
+          <a href="https://www.threads.com/@talha_bhatti0000" target="_blank" class="transition" style="color:var(--text-dim)" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">
             <i class="fas fa-comment text-xl"></i>
           </a>
         </div>
       </div>
 
-      <div class="text-center mt-8 pt-8 border-t border-white/10">
-        <p class="text-gray-400">© 2026 M. Talha Hussain. All rights reserved.</p>
-        <p class="text-gray-500 text-sm mt-2">Enterprise IT Solutions · Network Architecture · Software Development</p>
+      <div class="text-center mt-8 pt-8" style="border-top:1px solid var(--border)">
+        <p style="color:var(--text-dim)">© 2026 M. Talha Hussain. All rights reserved.</p>
+        <p class="text-sm mt-2" style="color:var(--text-faint); font-family:var(--mono)">enterprise_it · network_architecture · software_development</p>
       </div>
     </div>
   </footer>
 
   <script>
-    // ===== Custom cursor (desktop only) — smooth, rAF-driven, no layout thrashing =====
+    // Custom crosshair cursor — smooth, rAF-driven
     (function initCursor(){
       const cursorDot = document.querySelector('.cursor-dot');
       const cursorOutline = document.querySelector('.cursor-outline');
       const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
       if (!hasFinePointer || !cursorDot || !cursorOutline) return;
 
-      // Target = raw mouse position (updated instantly on mousemove)
-      // Rendered = smoothed/lerped position (updated every animation frame)
       let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
       let dotX = targetX, dotY = targetY;
       let outlineX = targetX, outlineY = targetY;
-      let rafId = null;
 
       window.addEventListener('mousemove', (e) => {
         targetX = e.clientX;
@@ -1241,103 +1059,33 @@
       }, { passive: true });
 
       function loop(){
-        // Dot follows instantly-ish (fast lerp) — feels responsive, never "hangs"
         dotX += (targetX - dotX) * 0.9;
         dotY += (targetY - dotY) * 0.9;
-        // Outline trails smoothly
-        outlineX += (targetX - outlineX) * 0.22;
-        outlineY += (targetY - outlineY) * 0.22;
+        outlineX += (targetX - outlineX) * 0.2;
+        outlineY += (targetY - outlineY) * 0.2;
 
         cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
-        cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+        cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%) rotate(45deg)`;
 
-        rafId = requestAnimationFrame(loop);
+        requestAnimationFrame(loop);
       }
-      rafId = requestAnimationFrame(loop);
+      requestAnimationFrame(loop);
 
-      // Interactive cursor effects
       document.querySelectorAll('a, button, .card, .nav-item').forEach(el => {
         el.addEventListener('mouseenter', () => {
-          cursorOutline.style.width = '56px';
-          cursorOutline.style.height = '56px';
-          cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+          cursorOutline.style.width = '48px';
+          cursorOutline.style.height = '48px';
+          cursorOutline.style.borderColor = 'rgba(0,230,164,.8)';
         });
         el.addEventListener('mouseleave', () => {
-          cursorOutline.style.width = '40px';
-          cursorOutline.style.height = '40px';
-          cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+          cursorOutline.style.width = '34px';
+          cursorOutline.style.height = '34px';
+          cursorOutline.style.borderColor = 'rgba(0,230,164,.45)';
         });
       });
     })();
 
-    // Binary background (lightweight count, GPU-friendly transforms)
-    function createBinaryBackground() {
-      const binaryBg = document.getElementById('binaryBg');
-      const digits = ['0', '1'];
-      const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-      const total = isCoarsePointer ? 35 : 60;
-      const frag = document.createDocumentFragment();
-      for (let i = 0; i < total; i++) {
-        const el = document.createElement('div');
-        el.className = 'binary-digit';
-        el.textContent = digits[Math.floor(Math.random() * digits.length)];
-        el.style.left = `${Math.random() * 100}%`;
-        const duration = 12 + Math.random() * 20;
-        const delay = Math.random() * 5;
-        el.style.animationDuration = `${duration}s`;
-        el.style.animationDelay = `${delay}s`;
-        frag.appendChild(el);
-      }
-      binaryBg.appendChild(frag);
-    }
-
-    // Parallax background — smooth rAF-driven, capped speed
-    function initParallaxBackground() {
-      const layer = document.getElementById('parallaxBg');
-      if (!layer) return;
-
-      let current = 0;
-      let target = 0;
-      let boost = 0;
-      let lastY = window.scrollY || 0;
-      let lastT = performance.now();
-      const baseFactor = 0.02; // slow by default
-      const maxBoost = 0.08;   // extra speed while scrolling
-      let scrollTicking = false;
-
-      const tick = () => {
-        current += (target - current) * 0.12; // smooth easing
-        layer.style.transform = `translate3d(0, ${current.toFixed(2)}px, 0)`;
-        requestAnimationFrame(tick);
-      };
-
-      const computeScroll = () => {
-        const y = window.scrollY || 0;
-        const t = performance.now();
-        const dt = Math.max(16, t - lastT);
-        const dy = Math.abs(y - lastY);
-        const speed = dy / dt; // px per ms
-        const targetBoost = Math.min(maxBoost, speed * 0.6);
-        boost += (targetBoost - boost) * 0.25;
-        target = y * (baseFactor + boost);
-        lastY = y;
-        lastT = t;
-        scrollTicking = false;
-      };
-
-      const onScroll = () => {
-        if (!scrollTicking) {
-          scrollTicking = true;
-          requestAnimationFrame(computeScroll);
-        }
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-      requestAnimationFrame(tick);
-    }
-
-    // Floating Navbar
+    // Floating navbar
     function initFloatingNavbar() {
       const floatingNav = document.getElementById('floating-nav');
       const navItems = document.querySelectorAll('.nav-item');
@@ -1349,15 +1097,11 @@
       let indicatorTicking = false;
       let navScrollTicking = false;
       let pendingActive = null;
-      
+
       const updateScrollHints = () => {
         if (!navPill || !hintLeft || !hintRight) return;
         const canScroll = navPill.scrollWidth > navPill.clientWidth + 2;
-        if (!canScroll) {
-          hintLeft.classList.add('hidden');
-          hintRight.classList.add('hidden');
-          return;
-        }
+        if (!canScroll) { hintLeft.classList.add('hidden'); hintRight.classList.add('hidden'); return; }
         const atStart = navPill.scrollLeft <= 2;
         const atEnd = navPill.scrollLeft + navPill.clientWidth >= navPill.scrollWidth - 2;
         hintLeft.classList.toggle('hidden', atStart);
@@ -1383,11 +1127,8 @@
         let current = '';
         sections.forEach(section => {
           const sectionTop = section.offsetTop;
-          if (scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-          }
+          if (scrollY >= (sectionTop - 200)) current = section.getAttribute('id');
         });
-
         navItems.forEach(item => {
           item.classList.remove('active');
           if (item.getAttribute('href').substring(1) === current) {
@@ -1395,74 +1136,84 @@
             pendingActive = item;
           }
         });
-
         if (!indicatorTicking && pendingActive) {
           indicatorTicking = true;
-          requestAnimationFrame(() => {
-            moveIndicator(pendingActive);
-            indicatorTicking = false;
-          });
+          requestAnimationFrame(() => { moveIndicator(pendingActive); indicatorTicking = false; });
         }
         navScrollTicking = false;
       };
 
       window.addEventListener('scroll', () => {
-        if (!navScrollTicking) {
-          navScrollTicking = true;
-          requestAnimationFrame(updateActiveSection);
-        }
+        if (!navScrollTicking) { navScrollTicking = true; requestAnimationFrame(updateActiveSection); }
       }, { passive: true });
-      
-      // Initialize indicator position
+
       const activeItem = document.querySelector('.nav-item.active');
-      if (activeItem) {
-        moveIndicator(activeItem);
-      }
-      
-      // Click handler for nav items
+      if (activeItem) moveIndicator(activeItem);
+
       navItems.forEach(item => {
         item.addEventListener('click', function(e) {
           e.preventDefault();
-          
           const targetId = this.getAttribute('href').substring(1);
           const targetSection = document.getElementById(targetId);
-          
-          if (targetSection) {
-            window.scrollTo({
-              top: targetSection.offsetTop - 80,
-              behavior: 'smooth'
-            });
-          }
+          if (targetSection) window.scrollTo({ top: targetSection.offsetTop - 80, behavior: 'smooth' });
         });
       });
     }
 
-    // Animate skill bars
-    let skillTicking = false;
-    function handleScrollAnimations() {
-      if (skillTicking) return;
-      skillTicking = true;
-      requestAnimationFrame(() => {
-        document.querySelectorAll('.skill-level:not(.animated)').forEach(bar => {
-          const rect = bar.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.9) bar.classList.add('animated');
-        });
-        skillTicking = false;
+    // Build segmented signal bars from data-percent
+    function buildSignalBars(){
+      document.querySelectorAll('.signal-bar').forEach(bar => {
+        const percent = parseInt(bar.dataset.percent, 10) || 0;
+        const segments = 20;
+        const lit = Math.round((percent / 100) * segments);
+        for (let i = 0; i < segments; i++){
+          const seg = document.createElement('div');
+          seg.className = 'signal-seg';
+          seg.style.setProperty('--i', i);
+          seg.dataset.lit = i < lit ? '1' : '0';
+          bar.appendChild(seg);
+        }
       });
     }
 
-    // Scroll reveal (Liquid-tech style smooth)
+    function animateSignalBar(bar){
+      if (bar.dataset.animated === '1') return;
+      bar.dataset.animated = '1';
+      bar.querySelectorAll('.signal-seg').forEach(seg => {
+        if (seg.dataset.lit === '1') seg.classList.add('lit');
+      });
+    }
+
+    function animateCounter(el){
+      if (el.dataset.animated === '1') return;
+      el.dataset.animated = '1';
+      const target = parseInt(el.dataset.target, 10) || 0;
+      const suffix = el.dataset.suffix || '%';
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now - start) / duration);
+        const val = Math.round(target * (1 - Math.pow(1 - p, 3)));
+        el.textContent = val + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
     function initReveal() {
       const items = document.querySelectorAll('.reveal');
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-          if (e.isIntersecting) e.target.classList.add('show');
+          if (e.isIntersecting) {
+            e.target.classList.add('show');
+            e.target.querySelectorAll('.signal-bar').forEach(animateSignalBar);
+            e.target.querySelectorAll('.pct').forEach(animateCounter);
+          }
         });
       }, { threshold: 0.12 });
       items.forEach(i => io.observe(i));
     }
 
-    // Card glow follows mouse (throttled with rAF, GPU-composited)
     function initCardGlow() {
       let glowTicking = false;
       let pendingCard = null, pendingX = 0, pendingY = 0;
@@ -1487,34 +1238,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      createBinaryBackground();
-      initParallaxBackground();
+      buildSignalBars();
       initFloatingNavbar();
       initReveal();
       initCardGlow();
-      handleScrollAnimations();
-
-      window.addEventListener('scroll', handleScrollAnimations, { passive: true });
-
-      setTimeout(() => {
-        document.querySelectorAll('.skill-level').forEach(bar => {
-          const rect = bar.getBoundingClientRect();
-          if (rect.top < window.innerHeight) bar.classList.add('animated');
-        });
-      }, 500);
-
-      // Loading bar on hover
-      document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          const loadingBar = document.createElement('div');
-          loadingBar.className = 'loading-bar';
-          this.appendChild(loadingBar);
-        });
-        card.addEventListener('mouseleave', function() {
-          const loadingBar = this.querySelector('.loading-bar');
-          if (loadingBar) loadingBar.remove();
-        });
-      });
     });
   </script>
 </body>
